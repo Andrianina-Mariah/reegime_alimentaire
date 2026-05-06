@@ -1,0 +1,224 @@
+========================================
+        TODO LIST - PROJET CODEIGNITER
+========================================
+
+1. INITIALISATION PROJET
+----------------------------------------
+[ ] Configurer .env (base de données)
+[ ] Créer base MySQL
+[ ] Configurer URL (App.baseURL)
+[ ] Vérifier connexion DB
+
+----------------------------------------
+2. BASE DE DONNÉES (MIGRATIONS / SQL)
+----------------------------------------
+[ ] Table users
+    - id
+    - nom
+    - email
+    - password
+    - genre
+    - is_gold
+
+[ ] Table health
+    - id
+    - user_id
+    - taille
+    - poids
+    - imc
+
+[ ] Table regimes
+    - id
+    - nom
+    - duree
+    - prix
+    - variation_poids
+    - % viande
+    - % poisson
+    - % volaille
+
+[ ] Table activities
+    - id
+    - nom
+    - description
+    - duree
+
+[ ] Table wallet
+    - id
+    - user_id
+    - solde
+
+[ ] Table codes
+    - id
+    - code
+    - montant
+    - used
+
+----------------------------------------
+3. AUTHENTIFICATION
+----------------------------------------
+[ ] Page inscription STEP 1 (infos perso)
+    - nom
+    - email
+    - password
+    - genre
+
+[ ] Page inscription STEP 2 (infos santé)
+    - taille
+    - poids
+
+[ ] Sauvegarde utilisateur
+[ ] Sauvegarde santé
+[ ] Calcul IMC
+
+[ ] Page login
+[ ] Vérification credentials
+[ ] Création session utilisateur
+[ ] Logout
+
+----------------------------------------
+4. PROFIL UTILISATEUR
+----------------------------------------
+[ ] Afficher profil
+[ ] Modifier infos perso
+[ ] Modifier infos santé
+[ ] Recalcul IMC
+
+----------------------------------------
+5. OBJECTIFS UTILISATEUR
+----------------------------------------
+[ ] Interface choix objectif :
+    - augmenter poids
+    - réduire poids
+    - IMC idéal
+
+[ ] Sauvegarder objectif
+[ ] Adapter logique selon IMC
+
+----------------------------------------
+6. SUGGESTION RÉGIMES
+----------------------------------------
+[ ] Récupérer IMC utilisateur
+[ ] Si IMC > normal → perte poids
+[ ] Si IMC < normal → prise poids
+[ ] Si normal → maintien
+
+[ ] Filtrer régimes selon variation_poids
+[ ] Afficher liste régimes
+[ ] Afficher prix + durée
+
+[ ] Appliquer réduction GOLD (-15%)
+
+----------------------------------------
+7. ACTIVITÉS SPORTIVES
+----------------------------------------
+[ ] Associer activités aux régimes
+[ ] Afficher activités recommandées
+[ ] Afficher durée activité
+
+----------------------------------------
+8. WALLET (PORTE MONNAIE)
+----------------------------------------
+[ ] Créer wallet utilisateur
+[ ] Afficher solde
+
+[ ] Saisie code
+[ ] Vérifier validité code
+[ ] Vérifier si utilisé
+
+[ ] Ajouter montant au wallet
+[ ] Marquer code comme utilisé
+
+----------------------------------------
+9. OPTION GOLD
+----------------------------------------
+[ ] Définir prix abonnement
+[ ] Vérifier solde wallet
+
+[ ] Déduire montant
+[ ] Activer is_gold
+
+[ ] Appliquer réduction sur régimes
+
+----------------------------------------
+10. EXPORT PDF
+----------------------------------------
+[ ] Générer vue PDF (régime + activités)
+[ ] Intégrer DomPDF
+[ ] Télécharger PDF
+
+----------------------------------------
+11. BACK OFFICE - AUTH
+----------------------------------------
+[ ] Page login admin
+[ ] Session admin
+
+----------------------------------------
+12. BACK OFFICE - DASHBOARD
+----------------------------------------
+[ ] Compter utilisateurs
+[ ] Compter régimes
+[ ] Compter activités
+
+[ ] Afficher graphiques
+    - utilisateurs
+    - régimes
+    - revenus
+
+----------------------------------------
+13. CRUD RÉGIMES
+----------------------------------------
+[ ] Ajouter régime
+[ ] Modifier régime
+[ ] Supprimer régime
+[ ] Lister régimes
+
+[ ] Gérer :
+    - durée
+    - prix
+    - variation poids
+    - % viande/poisson/volaille
+
+----------------------------------------
+14. CRUD ACTIVITÉS
+----------------------------------------
+[ ] Ajouter activité
+[ ] Modifier activité
+[ ] Supprimer activité
+[ ] Lister activités
+
+----------------------------------------
+15. GESTION CODES
+----------------------------------------
+[ ] Créer codes
+[ ] Lister codes
+[ ] Supprimer codes
+[ ] Voir utilisés / non utilisés
+
+----------------------------------------
+16. PARAMÈTRES
+----------------------------------------
+[ ] Définir IMC min / max
+[ ] Définir prix GOLD
+[ ] Définir durée régimes
+
+----------------------------------------
+17. DONNÉES INITIALES (SEED)
+----------------------------------------
+[ ] 5 utilisateurs
+[ ] 5 régimes
+[ ] 5 activités
+[ ] 15 codes
+
+----------------------------------------
+18. BONUS (OPTIONNEL)
+----------------------------------------
+[ ] AJAX pour formulaires
+[ ] Notifications (succès/erreur)
+[ ] Pagination listes
+[ ] Recherche filtres
+[ ] UI Bootstrap propre
+
+========================================
+FIN TODO
+========================================
