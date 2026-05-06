@@ -33,12 +33,20 @@
                 <p>Complete ton profil avec ta taille et ton poids actuels.</p>
             </div>
 
-            <form class="auth-form" action="#" method="post">
+            <?php if (session('errors')): ?>
+                <div class="alert alert-error">
+                    <?php foreach (session('errors') as $error): ?>
+                        <p><?= esc($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form class="auth-form" action="/inscription/etape-2" method="post">
                 <div class="field-grid">
                     <label for="taille">
                         Taille
                         <span class="unit-field">
-                            <input type="number" id="taille" name="taille" placeholder="170" min="80" max="240" required>
+                            <input type="number" id="taille" name="taille" value="<?= esc(old('taille')) ?>" placeholder="170" min="80" max="240" required>
                             <span>cm</span>
                         </span>
                     </label>
@@ -46,15 +54,15 @@
                     <label for="poids">
                         Poids
                         <span class="unit-field">
-                            <input type="number" id="poids" name="poids" placeholder="65" min="20" max="300" step="0.1" required>
+                            <input type="number" id="poids" name="poids" value="<?= esc(old('poids')) ?>" placeholder="65" min="20" max="300" step="0.1" required>
                             <span>kg</span>
                         </span>
                     </label>
                 </div>
 
                 <div class="summary-note">
-                    <strong>Au prochain branchement backend :</strong>
-                    sauvegarde dans <code>users</code> + <code>health</code>, avec hash du password.
+                    <strong>A la validation :</strong>
+                    sauvegarde dans <code>regime_utilisateurs</code> + <code>regime_sante</code>, avec calcul de l'IMC.
                 </div>
 
                 <button type="submit" class="primary-button">Finaliser l'inscription</button>

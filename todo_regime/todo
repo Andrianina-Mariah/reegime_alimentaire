@@ -35,7 +35,7 @@
 
 * [ ] Page 1 : nom, email, password, genre
 * [ ] Page 2 : taille, poids
-* [ ] Sauvegarde dans `users` + `health`
+* [ ] Sauvegarde dans `regime_utilisateurs` + `regime_sante`
 * [ ] Hash password
 
 ### Login
@@ -130,7 +130,7 @@
 
 ---
 
-## 🛠️ 10. BACK OFFICE (ADMIN)
+## 10. BACK OFFICE (ADMIN)
 
 ### Auth admin
 

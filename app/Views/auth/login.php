@@ -30,10 +30,24 @@
                 <p>Entre tes identifiants pour acceder a ton espace.</p>
             </div>
 
-            <form class="auth-form" action="#" method="post">
+            <?php if (session('success')): ?>
+                <div class="alert alert-success">
+                    <p><?= esc(session('success')) ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session('errors')): ?>
+                <div class="alert alert-error">
+                    <?php foreach (session('errors') as $error): ?>
+                        <p><?= esc($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form class="auth-form" action="/login" method="post">
                 <label for="email">
                     Email
-                    <input type="email" id="email" name="email" placeholder="nom@email.com" required>
+                    <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="nom@email.com" required>
                 </label>
 
                 <label for="password">

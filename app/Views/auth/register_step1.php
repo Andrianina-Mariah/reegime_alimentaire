@@ -33,15 +33,23 @@
                 <p>Renseigne les informations principales de ton compte.</p>
             </div>
 
-            <form class="auth-form" action="/inscription/etape-2" method="get">
+            <?php if (session('errors')): ?>
+                <div class="alert alert-error">
+                    <?php foreach (session('errors') as $error): ?>
+                        <p><?= esc($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <form class="auth-form" action="/inscription" method="post">
                 <label for="nom">
                     Nom complet
-                    <input type="text" id="nom" name="nom" placeholder="Ex: Maria Rakoto" required>
+                    <input type="text" id="nom" name="nom" value="<?= esc(old('nom')) ?>" placeholder="Ex: Maria Rakoto" required>
                 </label>
 
                 <label for="email">
                     Email
-                    <input type="email" id="email" name="email" placeholder="nom@email.com" required>
+                    <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="nom@email.com" required>
                 </label>
 
                 <label for="password">
@@ -52,11 +60,11 @@
                 <fieldset class="choice-group">
                     <legend>Genre</legend>
                     <label class="choice-card">
-                        <input type="radio" name="genre" value="femme" required>
+                        <input type="radio" name="genre" value="femme" <?= old('genre') === 'femme' ? 'checked' : '' ?> required>
                         <span>Femme</span>
                     </label>
                     <label class="choice-card">
-                        <input type="radio" name="genre" value="homme">
+                        <input type="radio" name="genre" value="homme" <?= old('genre') === 'homme' ? 'checked' : '' ?>>
                         <span>Homme</span>
                     </label>
                 </fieldset>

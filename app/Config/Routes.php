@@ -7,8 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/inscription', 'Auth::registerStepOne');
+$routes->post('/inscription', 'Auth::storeRegisterStepOne');
 $routes->get('/inscription/etape-2', 'Auth::registerStepTwo');
+$routes->post('/inscription/etape-2', 'Auth::storeRegisterStepTwo');
 $routes->get('/login', 'Auth::login');
-$routes->get('/produits', 'Produit::index');
-$routes->get('/produits/(:num)', 'Produit::show/$1');
-$routes->get('/produit/(:num)', 'Produit::show/$1');
+$routes->post('/login', 'Auth::authenticate');
