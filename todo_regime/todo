@@ -1,17 +1,17 @@
-# ✅ TODO LIST COMPLET — APPLICATION RÉGIME (CodeIgniter 4)
+# TODO LIST COMPLET — APPLICATION RÉGIME (CodeIgniter 4)
 
 ---
 
-## 🔧 0. INITIALISATION PROJET
+## 0. INITIALISATION PROJET (ETU4190)
 
 * [ ] Configurer `.env` (base de données MySQL)
-* [ ] Créer la base `regime_app`
+* [ ] Créer la base `regime`
 * [ ] Lancer le projet (`php spark serve`)
 * [ ] Vérifier connexion DB
 
 ---
 
-## 🗄️ 1. BASE DE DONNÉES (OBLIGATOIRE)
+## 1. BASE DE DONNÉES (OBLIGATOIRE) (ETU4291)
 
 * [ ] Créer table `users`
 * [ ] Créer table `health`
@@ -29,9 +29,9 @@
 
 ---
 
-## 🔐 2. AUTHENTIFICATION (FRONT)
+## 2. AUTHENTIFICATION (FRONT)
 
-### Inscription en 2 étapes (OBLIGATOIRE)
+### Inscription en 2 étapes (OBLIGATOIRE) (ETU3929)
 
 * [ ] Page 1 : nom, email, password, genre
 * [ ] Page 2 : taille, poids
@@ -46,7 +46,7 @@
 
 ---
 
-## 👤 3. PROFIL UTILISATEUR
+## 3. PROFIL UTILISATEUR
 
 * [ ] Afficher infos utilisateur
 * [ ] Afficher taille, poids
@@ -56,7 +56,7 @@
 
 ---
 
-## 🧠 4. GESTION OBJECTIFS (OBLIGATOIRE)
+## 4. GESTION OBJECTIFS (OBLIGATOIRE)
 
 * [ ] Page choix objectif :
 
