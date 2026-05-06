@@ -29,7 +29,6 @@ git merge votrebrancheperso
 git push
 
 
-
 mettre à jour ta branche perso :
 git checkout votrenom
 git merge dev
