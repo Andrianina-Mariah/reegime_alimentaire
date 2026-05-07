@@ -31,8 +31,25 @@
                 <p>Voici les informations du compte actuellement connecte.</p>
             </div>
 
+            <?php if (session('success')): ?>
+                <div class="alert alert-success">
+                    <p><?= esc(session('success')) ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session('errors')): ?>
+                <div class="alert alert-error">
+                    <?php foreach (session('errors') as $error): ?>
+                        <p><?= esc($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="profile-section">
-                <h3>Informations personnelles</h3>
+                <div class="section-header">
+                    <h3>Informations personnelles</h3>
+                    <a class="ghost-button" href="/profil/modifier-infos-perso">Modifier</a>
+                </div>
                 <div class="profile-grid">
                     <div class="profile-item">
                         <span class="profile-label">Nom</span>
@@ -56,7 +73,10 @@
             </div>
 
             <div class="profile-section">
-                <h3>Informations sante</h3>
+                <div class="section-header">
+                    <h3>Informations sante</h3>
+                    <a class="ghost-button" href="/profil/modifier-infos-sante">Modifier</a>
+                </div>
                 <div class="profile-grid">
                     <div class="profile-item">
                         <span class="profile-label">Taille</span>
