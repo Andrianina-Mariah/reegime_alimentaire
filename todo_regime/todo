@@ -2,7 +2,7 @@
 
 ---
 
-## 0. INITIALISATION PROJET (ETU4190)
+## 0. INITIALISATION PROJET (ETU3881)
 
 * [ ] Configurer `.env` (base de données MySQL)
 * [ ] Créer la base `regime`
@@ -31,7 +31,7 @@
 
 ## 2. AUTHENTIFICATION (FRONT)
 
-### Inscription en 2 étapes (OBLIGATOIRE) (ETU3929)
+### Inscription en 2 étapes (OBLIGATOIRE) (ETU4190)
 
 * [ ] Page 1 : nom, email, password, genre
 * [ ] Page 2 : taille, poids
@@ -68,7 +68,7 @@
 
 ---
 
-## 🍽️ 5. SUGGESTION RÉGIMES
+## 5. SUGGESTION RÉGIMES
 
 * [ ] Récupérer IMC utilisateur
 * [ ] Filtrer régimes :
@@ -86,7 +86,7 @@
 
 ---
 
-## 🏃 6. ACTIVITÉS SPORTIVES
+## 6. ACTIVITÉS SPORTIVES
 
 * [ ] Associer activités aux régimes
 * [ ] Afficher activités recommandées
@@ -94,7 +94,7 @@
 
 ---
 
-## 💰 7. WALLET (OBLIGATOIRE)
+## 7. WALLET (OBLIGATOIRE)
 
 * [ ] Créer portefeuille utilisateur
 * [ ] Afficher solde
@@ -105,7 +105,7 @@
 
 ---
 
-## 👑 8. OPTION GOLD (OBLIGATOIRE)
+## 8. OPTION GOLD (OBLIGATOIRE)
 
 * [ ] Définir prix GOLD (ex: 50 000 Ar)
 * [ ] Bouton "Devenir GOLD"
@@ -116,7 +116,7 @@
 
 ---
 
-## 📄 9. EXPORT PDF (OBLIGATOIRE)
+## 9. EXPORT PDF (OBLIGATOIRE)
 
 * [ ] Générer PDF des régimes choisis
 * [ ] Inclure :
@@ -171,7 +171,7 @@
 
 ---
 
-## ⚙️ 11. PARAMÈTRES (OBLIGATOIRE)
+## 11. PARAMÈTRES (OBLIGATOIRE)
 
 * [ ] Prix GOLD modifiable
 * [ ] Seuil IMC configurable
@@ -179,7 +179,7 @@
 
 ---
 
-## 🎨 12. FRONT (UI)
+## 12. FRONT (UI)
 
 * [ ] Formulaires propres (HTML/CSS)
 * [ ] Validation JS
@@ -187,11 +187,11 @@
 
   * [ ] recharge wallet
   * [ ] suggestion dynamique
-* [ ] Interface claire
+  * [ ] Interface claire
 
 ---
 
-## 🧪 13. TESTS MINIMUM
+## 13. TESTS MINIMUM
 
 * [ ] Tester inscription
 * [ ] Tester login
@@ -203,7 +203,7 @@
 
 ---
 
-## 🚀 14. FINALISATION
+## 14. FINALISATION
 
 * [ ] Vérifier bugs
 * [ ] Vérifier sécurité (password hash, session)
@@ -212,9 +212,9 @@
 
 ---
 
-# 🎯 RÈGLE D’OR
+# RÈGLE D’OR
 
-👉 Tout ce qui est listé ici = OBLIGATOIRE (pas optionnel)
-👉 Si une partie manque → projet incomplet
+Tout ce qui est listé ici = OBLIGATOIRE (pas optionnel)
+Si une partie manque → projet incomplet
 
 ---
