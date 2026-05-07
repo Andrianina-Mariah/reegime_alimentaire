@@ -1,7 +1,7 @@
-
 CREATE DATABASE IF NOT EXISTS regime;
 USE regime;
-CREATE TABLE regime_utilisateur (
+
+CREATE TABLE regime_utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100),
     email VARCHAR(100),
@@ -12,11 +12,11 @@ CREATE TABLE regime_utilisateur (
 
 CREATE TABLE regime_sante (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT,
+    user_id INT,
     taille FLOAT,
     poids FLOAT,
     imc FLOAT,
-    FOREIGN KEY (utilisateur_id) REFERENCES regime_utilisateur(id)
+    FOREIGN KEY (user_id) REFERENCES regime_utilisateurs(id)
 );
 
 CREATE TABLE regime_regimes (
@@ -30,7 +30,7 @@ CREATE TABLE regime_regimes (
     pourcentage_volaille INT
 );
 
-CREATE TABLE regime_activite (
+CREATE TABLE regime_activites (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100),
     description TEXT,
@@ -44,9 +44,8 @@ CREATE TABLE regime_codes (
     used BOOLEAN DEFAULT 0
 );
 
-CREATE TABLE regime_argent (
+CREATE TABLE regime_wallet (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT,
-    solde FLOAT DEFAULT 0,
-    FOREIGN KEY (utilisateur_id) REFERENCES regime_utilisateur(id)
+    user_id INT,
+    solde FLOAT DEFAULT 0
 );
