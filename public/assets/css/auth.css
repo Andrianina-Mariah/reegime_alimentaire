@@ -363,6 +363,67 @@ a:hover {
     box-shadow: 0 18px 34px rgba(39, 114, 71, 0.34);
 }
 
+.profile-section {
+    margin-bottom: 1.8rem;
+}
+
+.profile-section h3 {
+    margin: 0 0 0.9rem;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.9rem;
+}
+
+.profile-item {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+}
+
+.profile-label {
+    color: var(--muted);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.profile-item strong {
+    font-size: 1.05rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-weight: 900;
+}
+
+.badge-default {
+    background: rgba(24, 32, 27, 0.08);
+    color: var(--ink);
+}
+
+.badge-gold {
+    background: rgba(244, 183, 64, 0.28);
+    color: #6b3b12;
+}
+
 @media (max-width: 860px) {
     .auth-shell {
         grid-template-columns: 1fr;

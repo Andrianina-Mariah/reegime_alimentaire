@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil utilisateur</title>
+    <link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+<body>
+    <main class="auth-shell profile-shell">
+        <section class="auth-visual login-visual" aria-label="Presentation">
+            <p class="eyebrow">Espace personnel</p>
+            <h1>Ton profil au complet, en un coup d'œil.</h1>
+            <p>
+                Retrouve tes informations principales ainsi que tes mesures de sante
+                pour suivre l'evolution de ton IMC et de tes objectifs.
+            </p>
+
+            <div class="progress-card">
+                <span>Statut compte</span>
+                <strong><?= isset($user['is_gold']) && (int) $user['is_gold'] === 1 ? 'Gold actif' : 'Standard' ?></strong>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <a class="back-link" href="/">Retour a l'accueil</a>
+
+            <div class="card-heading">
+                <span class="step-pill">PR</span>
+                <h2>Profil utilisateur</h2>
+                <p>Voici les informations du compte actuellement connecte.</p>
+            </div>
+
+            <div class="profile-section">
+                <h3>Informations personnelles</h3>
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <span class="profile-label">Nom</span>
+                        <strong><?= esc($user['nom'] ?? '-') ?></strong>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Email</span>
+                        <strong><?= esc($user['email'] ?? '-') ?></strong>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Genre</span>
+                        <strong><?= esc(ucfirst($user['genre'] ?? '')) ?: '-' ?></strong>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Statut</span>
+                        <strong class="badge <?= isset($user['is_gold']) && (int) $user['is_gold'] === 1 ? 'badge-gold' : 'badge-default' ?>">
+                            <?= isset($user['is_gold']) && (int) $user['is_gold'] === 1 ? 'Gold' : 'Standard' ?>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Informations sante</h3>
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <span class="profile-label">Taille</span>
+                        <strong><?= isset($sante['taille']) ? esc($sante['taille']) . ' cm' : '-' ?></strong>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">Poids</span>
+                        <strong><?= isset($sante['poids']) ? esc($sante['poids']) . ' kg' : '-' ?></strong>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">IMC</span>
+                        <strong><?= isset($sante['imc']) ? esc($sante['imc']) : '-' ?></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-note">
+                Besoin de mettre a jour tes informations ? Les ecrans de modification arrivent bientot.
+            </div>
+        </section>
+    </main>
+</body>
+</html>
