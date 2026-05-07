@@ -65,6 +65,11 @@
 
                 <button type="submit" class="primary-button">Se connecter</button>
             </form>
+
+            <div class="admin-access">
+                <span>Tu fais partie de l'equipe ?</span>
+                <a href="/admin/login">Acceder au login admin</a>
+            </div>
         </section>
     </main>
 </body>

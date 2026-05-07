@@ -1,10 +1,9 @@
-
 INSERT INTO regime_utilisateurs (nom, email, password, genre, is_gold) VALUES
-('Jean Rakoto', 'jean@gmail.com', '123456', 'Homme', 1),
-('Marie Rasoa', 'marie@gmail.com', '123456', 'Femme', 0),
-('Paul Randria', 'paul@gmail.com', '123456', 'Homme', 0),
-('Lucie Rabe', 'lucie@gmail.com', '123456', 'Femme', 1),
-('Eric Andry', 'eric@gmail.com', '123456', 'Homme', 0);
+('Jean Rakoto', 'jean@gmail.com', '$2y$12$25IXNwul9Uy61xXHVUcFmOt8dcW3kyHBssEGVOB3Ve6vWgSj6gN0m', 'homme', 1),--123456
+('Marie Rasoa', 'marie@gmail.com', '$2y$12$25IXNwul9Uy61xXHVUcFmOt8dcW3kyHBssEGVOB3Ve6vWgSj6gN0m', 'femme', 0),--123456
+('Paul Randria', 'paul@gmail.com', '$2y$12$25IXNwul9Uy61xXHVUcFmOt8dcW3kyHBssEGVOB3Ve6vWgSj6gN0m', 'homme', 0),--123456
+('Lucie Rabe', 'lucie@gmail.com', '$2y$12$25IXNwul9Uy61xXHVUcFmOt8dcW3kyHBssEGVOB3Ve6vWgSj6gN0m', 'femme', 1),--123456
+('Eric Andry', 'eric@gmail.com', '$2y$12$25IXNwul9Uy61xXHVUcFmOt8dcW3kyHBssEGVOB3Ve6vWgSj6gN0m', 'homme', 0);--123456
 
 
 INSERT INTO regime_regimes (nom, duree, prix, variation_poids, pourcentage_viande, pourcentage_poisson, pourcentage_volaille) VALUES
@@ -38,12 +37,12 @@ INSERT INTO regime_codes (code, montant, used) VALUES
 ('CODE014', 17000, 0),
 ('CODE015', 18000, 0);
 
-INSERT INTO regime_sante (user_id, taille, poids, imc) VALUES
-(1, 1.75, 70, 22.9),
-(2, 1.60, 60, 23.4),
-(3, 1.80, 85, 26.2),
-(4, 1.65, 55, 20.2),
-(5, 1.70, 90, 31.1);
+INSERT INTO regime_sante (user_id, taille, poids) VALUES
+(1, 175, 70),
+(2, 160, 60),
+(3, 180, 85),
+(4, 165, 55),
+(5, 170, 90);
 
 INSERT INTO regime_wallet (user_id, solde) VALUES
 (1, 50000),

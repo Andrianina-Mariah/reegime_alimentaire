@@ -14,6 +14,5 @@ class RegimeSanteModel extends Model
         'user_id',
         'taille',
         'poids',
-        'imc',
     ];
 }

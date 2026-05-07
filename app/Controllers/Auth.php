@@ -76,8 +76,6 @@ class Auth extends BaseController
 
         $taille = (float) $this->request->getPost('taille');
         $poids = (float) $this->request->getPost('poids');
-        $tailleMetres = $taille / 100;
-        $imc = $tailleMetres > 0 ? round($poids / ($tailleMetres * $tailleMetres), 2) : 0;
 
         $db = db_connect();
         $utilisateurs = new RegimeUtilisateurModel();
@@ -97,7 +95,6 @@ class Auth extends BaseController
             'user_id' => $userId,
             'taille' => $taille,
             'poids' => $poids,
-            'imc' => $imc,
         ]);
 
         $db->transComplete();
@@ -146,6 +143,6 @@ class Auth extends BaseController
             'is_logged_in' => true,
         ]);
 
-        return redirect()->to('/')->with('success', 'Connexion reussie.');
+        return redirect()->to('/profil')->with('success', 'Connexion reussie.');
     }
 }
