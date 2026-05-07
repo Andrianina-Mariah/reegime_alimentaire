@@ -45,10 +45,20 @@
                 </div>
             <?php endif; ?>
 
+            <div class="profile-actions">
+                <a class="profile-action-card profile-action-perso" href="/profil/modifier-infos-perso">
+                    <span>Infos utilisateur</span>
+                    <strong>Modifier le nom, l'email et le genre</strong>
+                </a>
+                <a class="profile-action-card profile-action-sante" href="/profil/modifier-infos-sante">
+                    <span>Infos sante</span>
+                    <strong>Modifier la taille et le poids</strong>
+                </a>
+            </div>
+
             <div class="profile-section">
                 <div class="section-header">
                     <h3>Informations personnelles</h3>
-                    <a class="ghost-button" href="/profil/modifier-infos-perso">Modifier</a>
                 </div>
                 <div class="profile-grid">
                     <div class="profile-item">
@@ -75,7 +85,6 @@
             <div class="profile-section">
                 <div class="section-header">
                     <h3>Informations sante</h3>
-                    <a class="ghost-button" href="/profil/modifier-infos-sante">Modifier</a>
                 </div>
                 <div class="profile-grid">
                     <div class="profile-item">
@@ -94,7 +103,7 @@
             </div>
 
             <div class="summary-note">
-                Besoin de mettre a jour tes informations ? Les ecrans de modification arrivent bientot.
+                Choisis le bouton correspondant pour modifier uniquement la partie souhaitee de ton profil.
             </div>
         </section>
     </main>
