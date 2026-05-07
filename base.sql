@@ -10,6 +10,20 @@ CREATE TABLE regime_utilisateurs (
     is_gold BOOLEAN DEFAULT 0
 );
 
+CREATE TABLE regime_admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
+);
+
+INSERT INTO regime_admins (nom, email, password)
+VALUES (
+    'Administrateur',
+    'admin@regime.local',
+    '$2y$12$fJTt6mN8HEp6wo6FIBZao.XQKbg6y2UEqC/n4YyXx2IJMeWVabsvO'
+);
+
 CREATE TABLE regime_sante (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
