@@ -39,7 +39,7 @@ class AdminAuth extends BaseController
             'is_admin_logged_in' => true,
         ]);
 
-        return redirect()->to('/')->with('success', 'Connexion administrateur reussie.');
+        return redirect()->to('/admin/dashboard')->with('success', 'Connexion administrateur reussie.');
     }
 
     public function logout()

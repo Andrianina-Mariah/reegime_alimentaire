@@ -1,0 +1,202 @@
+:root {
+    --ink: #18201b;
+    --muted: #69746c;
+    --paper: #fffaf0;
+    --leaf: #277247;
+    --leaf-dark: #17462c;
+    --sun: #f4b740;
+    --clay: #c86f43;
+    --line: rgba(24, 32, 27, 0.12);
+    --shadow: 0 28px 80px rgba(47, 66, 43, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(244, 183, 64, 0.28), transparent 24rem),
+        radial-gradient(circle at 88% 5%, rgba(39, 114, 71, 0.18), transparent 22rem),
+        linear-gradient(135deg, #fff7e3 0%, #edf3df 100%);
+}
+
+.dashboard-shell {
+    width: min(1180px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: clamp(1rem, 4vw, 3rem) 0;
+}
+
+.dashboard-hero {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: clamp(1.4rem, 4vw, 3rem);
+    color: #fffaf0;
+    background:
+        linear-gradient(135deg, rgba(23, 70, 44, 0.96), rgba(24, 32, 27, 0.94)),
+        url("data:image/svg+xml,%3Csvg width='220' height='220' viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23f4b740' stroke-opacity='.18' stroke-width='2'%3E%3Cpath d='M34 174h152M48 146l34-42 36 24 52-70'/%3E%3Ccircle cx='82' cy='104' r='8'/%3E%3Ccircle cx='118' cy='128' r='8'/%3E%3Ccircle cx='170' cy='58' r='8'/%3E%3C/g%3E%3C/svg%3E");
+    border-radius: 34px;
+    box-shadow: var(--shadow);
+}
+
+.eyebrow,
+.chart-heading span,
+.stat-card span {
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.dashboard-hero h1 {
+    max-width: 13ch;
+    margin: 0.4rem 0 0;
+    font-size: clamp(3rem, 7vw, 5.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.07em;
+}
+
+.dashboard-hero p:not(.eyebrow) {
+    max-width: 38rem;
+    margin: 1.1rem 0 0;
+    color: rgba(255, 250, 240, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.logout-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.1rem;
+    color: var(--ink);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-weight: 900;
+    text-decoration: none;
+    white-space: nowrap;
+    background: var(--sun);
+    border-radius: 999px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.2rem 0;
+}
+
+.stat-card,
+.chart-card {
+    padding: 1.3rem;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 26px;
+    box-shadow: 0 18px 48px rgba(46, 57, 42, 0.12);
+    backdrop-filter: blur(14px);
+}
+
+.stat-card strong {
+    display: block;
+    margin: 0.45rem 0;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 1;
+}
+
+.stat-card p {
+    margin: 0;
+    color: var(--muted);
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-weight: 800;
+}
+
+.stat-card-warm {
+    background: rgba(244, 183, 64, 0.2);
+}
+
+.stat-card-dark {
+    color: #fffaf0;
+    background: linear-gradient(135deg, var(--ink), #39402f);
+}
+
+.stat-card-dark p {
+    color: rgba(255, 250, 240, 0.72);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.chart-card-wide {
+    grid-column: span 2;
+}
+
+.chart-heading {
+    margin-bottom: 1.2rem;
+}
+
+.chart-heading span {
+    color: var(--leaf);
+}
+
+.chart-heading h2 {
+    margin: 0.35rem 0 0;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.bar-row + .bar-row {
+    margin-top: 1rem;
+}
+
+.bar-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+
+.bar-meta span {
+    color: var(--muted);
+    font-weight: 800;
+}
+
+.bar-track {
+    height: 0.85rem;
+    overflow: hidden;
+    background: rgba(24, 32, 27, 0.1);
+    border-radius: 999px;
+}
+
+.bar-track span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--leaf), var(--sun));
+    border-radius: inherit;
+}
+
+@media (max-width: 780px) {
+    .dashboard-hero {
+        flex-direction: column;
+    }
+
+    .stats-grid,
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card-wide {
+        grid-column: auto;
+    }
+}

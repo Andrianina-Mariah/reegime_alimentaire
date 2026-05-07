@@ -23,7 +23,10 @@
         </section>
 
         <section class="auth-card">
-            <a class="back-link" href="/">Retour a l'accueil</a>
+            <div class="profile-topbar">
+                <a class="back-link" href="/">Retour a l'accueil</a>
+                <a class="logout-button" href="/logout">Deconnexion</a>
+            </div>
 
             <div class="card-heading">
                 <span class="step-pill">PR</span>

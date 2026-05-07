@@ -145,4 +145,16 @@ class Auth extends BaseController
 
         return redirect()->to('/profil')->with('success', 'Connexion reussie.');
     }
+
+    public function logout()
+    {
+        session()->remove([
+            'user_id',
+            'user_nom',
+            'user_email',
+            'is_logged_in',
+        ]);
+
+        return redirect()->to('/login')->with('success', 'Tu es bien deconnecte.');
+    }
 }

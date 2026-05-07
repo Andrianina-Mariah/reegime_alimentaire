@@ -14,11 +14,13 @@ $routes->get('/inscription/etape-2', 'Auth::registerStepTwo');
 $routes->post('/inscription/etape-2', 'Auth::storeRegisterStepTwo');
 $routes->get('/login', 'Auth::login');
 $routes->post('/login', 'Auth::authenticate');
+$routes->get('/logout', 'Auth::logout');
 $routes->get('/profil', 'Profil::index');
 
 $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
 $routes->get('/admin/logout', 'AdminAuth::logout');
+$routes->get('/admin/dashboard', 'AdminDashboard::index');
 
 $routes->get('/profil/modifier-infos-perso', 'Profil::editPerso');
 $routes->post('/profil/modifier-infos-perso', 'Profil::updatePerso');
