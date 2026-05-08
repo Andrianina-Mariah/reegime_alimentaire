@@ -6,6 +6,9 @@ git push -u origin dev
 
 Ty atao in-1 refa nanokatra voalohany anle dev
 git fetch
+git checkout dev 
+git pull origin dev 
+git checkout -b votrenom
 
 Pour vous assurer hoe ao amle branche anareo foana nareo no miasa
 git checkout votrenom
@@ -24,7 +27,6 @@ ty le mandefa anle travaille tao amle branche perso manakany am dev
 git checkout dev
 git merge votrebrancheperso
 git push
-
 
 
 mettre à jour ta branche perso :

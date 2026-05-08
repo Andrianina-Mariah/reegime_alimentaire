@@ -1,0 +1,88 @@
+structure à ajouter
+
+app/
+ ├── Controllers/
+ │    ├── AuthController.php
+ │    ├── ProfileController.php
+ │    ├── RegimeController.php
+ │    ├── DashboardController.php
+ │    ├── WalletController.php
+ │    ├── ExportController.php
+ │
+ ├── Models/
+ │    ├── UserModel.php
+ │    ├── HealthModel.php
+ │    ├── RegimeModel.php
+ │    ├── ActivityModel.php
+ │    ├── WalletModel.php
+ │    ├── CodeModel.php
+ │
+ ├── Views/
+ │    ├── auth/
+ │    ├── profile/
+ │    ├── regimes/
+ │    ├── dashboard/
+ │    ├── wallet/
+ │
+ ├── Database/
+ │    ├── Migrations/
+ │    ├── Seeds/
+
+
+ *flux global FRONT OFFICE
+ Inscription étape 1 → infos perso
+        ↓
+Inscription étape 2 → infos santé
+        ↓
+Login
+        ↓
+Compléter profil
+        ↓
+Choisir objectif
+        ↓
+Calcul IMC
+        ↓
+Suggestion régimes + activités
+        ↓
+(Possible) Export PDF
+        ↓
+(Possible) Ajouter argent
+        ↓
+(Possible) Activer GOLD
+
+    BACK OFFICE
+
+Login admin
+   ↓
+Dashboard (stats + graphes)
+   ↓
+CRUD Régimes
+   ↓
+CRUD Activités
+   ↓
+Gestion Codes
+   ↓
+Paramètres
+
+
+    lOGIQUE METIER
+*Calcul IMC 
+
+function calculIMC($poids, $taille) {
+    return $poids / ($taille * $taille);
+}
+
+*objectifs
+switch($objectif) {
+    case "augmenter":
+        // IMC < normal
+        break;
+
+    case "reduire":
+        // IMC > normal
+        break;
+
+    case "ideal":
+        // viser IMC entre 18.5 et 25
+        break;
+}

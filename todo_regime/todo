@@ -1,0 +1,199 @@
+# TODO LIST COMPLET — APPLICATION RÉGIME (CodeIgniter 4)
+
+---
+
+* [ ] Configurer `.env` (base de données MySQL)
+* [ ] Créer la base `regime`
+* [ ] Lancer le projet (`php spark serve`)
+* [ ] Vérifier connexion DB
+
+---
+
+## 1. BASE DE DONNÉES (OBLIGATOIRE) (ETU4291)
+
+* [ ] Créer table `users`
+* [ ] Créer table `health`
+* [ ] Créer table `regimes`
+* [ ] Créer table `activities`
+* [ ] Créer table `codes`
+* [ ] Créer table `wallet`
+* [ ] Ajouter relations (FK user_id)
+* [ ] Insérer données minimales :
+
+  * [ ] 5 utilisateurs
+  * [ ] 5 régimes
+  * [ ] 5 activités
+  * [ ] 15 codes
+
+---
+
+## 2. AUTHENTIFICATION (FRONT)
+* [ ] Hash password
+
+### Login
+
+* [ ] Form login
+* [ ] Vérification email/password
+* [ ] Session utilisateur
+
+---
+
+## 3. PROFIL UTILISATEUR
+
+* [ ] Afficher infos utilisateur
+* [ ] Afficher taille, poids
+* [ ] Calcul IMC automatique
+* [ ] Enregistrer IMC en base
+* [ ] Permettre modification profil
+
+---
+
+## 4. GESTION OBJECTIFS (OBLIGATOIRE)
+
+* [ ] Page choix objectif :
+
+  * [ ] Augmenter poids
+  * [ ] Réduire poids
+  * [ ] IMC idéal
+* [ ] Sauvegarder objectif utilisateur
+* [ ] Adapter logique selon IMC
+
+---
+
+
+* [ ] Récupérer IMC utilisateur
+* [ ] Filtrer régimes :
+
+  * [ ] IMC > 25 → régimes perte poids
+  * [ ] IMC < 18 → régimes prise poids
+  * [ ] Sinon → équilibre
+* [ ] Afficher liste régimes
+* [ ] Afficher :
+
+  * [ ] durée
+  * [ ] prix
+  * [ ] variation poids
+  * [ ] % viande/poisson/volaille
+
+---
+
+
+
+* [ ] Associer activités aux régimes
+* [ ] Afficher activités recommandées
+* [ ] Afficher durée activité
+
+---
+
+
+* [ ] Créer portefeuille utilisateur
+* [ ] Afficher solde
+* [ ] Saisie code recharge
+* [ ] Vérifier code valide
+* [ ] Ajouter montant au solde
+* [ ] Marquer code comme utilisé
+
+---
+
+
+
+* [ ] Définir prix GOLD (ex: 50 000 Ar)
+* [ ] Bouton "Devenir GOLD"
+* [ ] Vérifier solde wallet suffisant
+* [ ] Débiter wallet
+* [ ] Activer `is_gold = 1`
+* [ ] Appliquer réduction -15% sur régimes
+
+---
+
+
+
+* [ ] Générer PDF des régimes choisis
+* [ ] Inclure :
+
+  * [ ] infos utilisateur
+  * [ ] IMC
+  * [ ] objectif
+  * [ ] régime
+  * [ ] activités
+* [ ] Télécharger PDF
+
+---
+
+
+### Auth admin
+
+* [ ] Page login admin
+
+### Dashboard
+
+* [ ] Nombre utilisateurs
+* [ ] Nombre régimes
+* [ ] Graphiques (Chart.js)
+
+### CRUD Régimes
+
+* [ ] Ajouter régime
+* [ ] Modifier régime
+* [ ] Supprimer régime
+* [ ] Champs obligatoires :
+
+  * [ ] nom
+  * [ ] durée
+  * [ ] prix
+  * [ ] variation poids
+  * [ ] % viande
+  * [ ] % poisson
+  * [ ] % volaille
+
+### CRUD Activités
+
+* [ ] Ajouter activité
+* [ ] Modifier activité
+* [ ] Supprimer activité
+
+### Gestion Codes
+
+* [ ] Ajouter code
+* [ ] Supprimer code
+* [ ] Voir codes utilisés/non utilisés
+
+---
+
+
+
+* [ ] Prix GOLD modifiable
+* [ ] Seuil IMC configurable
+* [ ] Durée régimes configurable
+
+---
+
+
+* [ ] Formulaires propres (HTML/CSS)
+* [ ] Validation JS
+* [ ] AJAX pour :
+
+  * [ ] recharge wallet
+  * [ ] suggestion dynamique
+
+
+* [ ] Tester inscription
+* [ ] Tester login
+* [ ] Tester IMC
+* [ ] Tester suggestion
+* [ ] Tester wallet
+* [ ] Tester GOLD
+* [ ] Tester PDF
+
+---
+
+
+
+* [ ] Vérifier bugs
+* [ ] Vérifier sécurité (password hash, session)
+* [ ] Nettoyer code
+* [ ] Préparer démo
+
+---
+
+
