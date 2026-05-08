@@ -17,6 +17,9 @@ $routes->post('/login', 'Auth::authenticate');
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/profil', 'Profil::index');
 
+$routes->get('/profil/objectif', 'Objectifs::index');
+$routes->post('/profil/objectif', 'Objectifs::save');
+
 $routes->get('/regimes', 'Regimes::index');
 $routes->get('/regimes/(:num)/activites', 'Activites::recommandees/$1');
 $routes->get('/wallet', 'Wallet::index');
