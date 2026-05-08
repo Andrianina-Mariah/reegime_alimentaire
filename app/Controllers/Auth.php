@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\RegimeSanteModel;
 use App\Models\RegimeUtilisateurModel;
+use App\Models\RegimeWalletModel;
 
 class Auth extends BaseController
 {
@@ -95,6 +96,12 @@ class Auth extends BaseController
             'user_id' => $userId,
             'taille' => $taille,
             'poids' => $poids,
+        ]);
+
+        $walletModel = new RegimeWalletModel();
+        $walletModel->insert([
+            'user_id' => $userId,
+            'solde' => 0,
         ]);
 
         $db->transComplete();

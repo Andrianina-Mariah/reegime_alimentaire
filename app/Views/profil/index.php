@@ -61,6 +61,10 @@
                     <span>Régimes</span>
                     <strong>Voir la liste et les activités</strong>
                 </a>
+                <a class="profile-action-card profile-action-wallet" href="/wallet">
+                    <span>Wallet</span>
+                    <strong>Ajouter de l'argent et voir le solde</strong>
+                </a>
             </div>
 
             <div class="profile-section">
@@ -107,6 +111,34 @@
                         <strong><?= isset($sante['imc']) ? esc($sante['imc']) : '-' ?></strong>
                     </div>
                 </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="section-header">
+                    <h3>Objectif</h3>
+                </div>
+
+                <form class="auth-form" action="/profil/objectif" method="post">
+                    <fieldset class="choice-group">
+                        <legend>Choisis ton objectif</legend>
+                        <?php foreach (($objectifs ?? []) as $value => $label): ?>
+                            <label class="choice-card">
+                                <input
+                                    type="radio"
+                                    name="objectif"
+                                    value="<?= esc($value) ?>"
+                                    <?= isset($user['objectif']) && $user['objectif'] === $value ? 'checked' : '' ?>
+                                    required
+                                >
+                                <span><?= esc($label) ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </fieldset>
+
+                    <button type="submit" class="primary-button" style="margin-top: 1rem;">
+                        Enregistrer mon objectif
+                    </button>
+                </form>
             </div>
 
             <div class="summary-note">

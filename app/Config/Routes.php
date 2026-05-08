@@ -19,6 +19,8 @@ $routes->get('/profil', 'Profil::index');
 
 $routes->get('/regimes', 'Regimes::index');
 $routes->get('/regimes/(:num)/activites', 'Activites::recommandees/$1');
+$routes->get('/wallet', 'Wallet::index');
+$routes->post('/wallet/recharge', 'Wallet::recharge');
 
 $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
@@ -31,3 +33,4 @@ $routes->get('/profil/modifier-infos-perso', 'Profil::editPerso');
 $routes->post('/profil/modifier-infos-perso', 'Profil::updatePerso');
 $routes->get('/profil/modifier-infos-sante', 'Profil::editSante');
 $routes->post('/profil/modifier-infos-sante', 'Profil::updateSante');
+$routes->post('/profil/objectif', 'Profil::updateObjectif');

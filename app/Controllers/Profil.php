@@ -7,6 +7,18 @@ use App\Models\RegimeUtilisateurModel;
 
 class Profil extends BaseController
 {
+    /**
+     * @return array<string,string>
+     */
+    private function objectifsDisponibles(): array
+    {
+        return [
+            'perte_poids' => 'Réduire mon poids',
+            'maintien' => 'Atteindre mon IMC idéal',
+            'prise_poids' => 'Augmenter mon poids',
+        ];
+    }
+
     public function index()
     {
         if (! session('is_logged_in')) {
@@ -38,7 +50,40 @@ class Profil extends BaseController
         return view('profil/index', [
             'user' => $user,
             'sante' => $sante,
+            'objectifs' => $this->objectifsDisponibles(),
         ]);
+    }
+
+    public function updateObjectif()
+    {
+        if (! session('is_logged_in')) {
+            return redirect()->to('/login')->with('errors', [
+                'auth' => 'Connecte-toi pour accéder à cette page.',
+            ]);
+        }
+
+        $userId = (int) session('user_id');
+        if ($userId <= 0) {
+            return redirect()->to('/login')->with('errors', [
+                'auth' => 'Session invalide. Merci de te reconnecter.',
+            ]);
+        }
+
+        $objectif = strtolower(trim((string) $this->request->getPost('objectif')));
+        $objectifs = $this->objectifsDisponibles();
+
+        if ($objectif === '' || ! array_key_exists($objectif, $objectifs)) {
+            return redirect()->back()->withInput()->with('errors', [
+                'objectif' => 'Choisis un objectif valide.',
+            ]);
+        }
+
+        $utilisateurs = new RegimeUtilisateurModel();
+        $utilisateurs->update($userId, [
+            'objectif' => $objectif,
+        ]);
+
+        return redirect()->to('/profil')->with('success', 'Objectif mis à jour.');
     }
 
     public function editPerso()

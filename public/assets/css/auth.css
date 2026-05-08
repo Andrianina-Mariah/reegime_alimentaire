@@ -515,6 +515,10 @@ a:hover {
     background: linear-gradient(135deg, var(--ink), var(--leaf-dark));
 }
 
+.profile-action-wallet {
+    background: linear-gradient(135deg, #1e3b6f, #4f7bd9);
+}
+
 .section-header {
     display: flex;
     align-items: center;
