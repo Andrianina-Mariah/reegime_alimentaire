@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS regime;
 CREATE DATABASE IF NOT EXISTS regime;
 USE regime;
 
@@ -7,7 +8,8 @@ CREATE TABLE regime_utilisateurs (
     email VARCHAR(100),
     password VARCHAR(255),
     genre VARCHAR(10),
-    is_gold BOOLEAN DEFAULT 0
+    is_gold BOOLEAN DEFAULT 0,
+    objectif VARCHAR(30) DEFAULT NULL
 );
 
 CREATE TABLE regime_sante (

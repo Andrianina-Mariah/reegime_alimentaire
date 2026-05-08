@@ -16,5 +16,6 @@ class RegimeUtilisateurModel extends Model
         'password',
         'genre',
         'is_gold',
+        'objectif',
     ];
 }
