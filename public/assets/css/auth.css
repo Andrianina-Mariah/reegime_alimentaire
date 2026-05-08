@@ -511,6 +511,10 @@ a:hover {
     background: linear-gradient(135deg, #824927, var(--clay));
 }
 
+.profile-action-regimes {
+    background: linear-gradient(135deg, var(--ink), var(--leaf-dark));
+}
+
 .section-header {
     display: flex;
     align-items: center;

@@ -57,6 +57,10 @@
                     <span>Infos sante</span>
                     <strong>Modifier la taille et le poids</strong>
                 </a>
+                <a class="profile-action-card profile-action-regimes" href="/regimes">
+                    <span>Régimes</span>
+                    <strong>Voir la liste et les activités</strong>
+                </a>
             </div>
 
             <div class="profile-section">

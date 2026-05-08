@@ -17,10 +17,15 @@ $routes->post('/login', 'Auth::authenticate');
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/profil', 'Profil::index');
 
+$routes->get('/regimes', 'Regimes::index');
+$routes->get('/regimes/(:num)/activites', 'Activites::recommandees/$1');
+
 $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
 $routes->get('/admin/logout', 'AdminAuth::logout');
 $routes->get('/admin/dashboard', 'AdminDashboard::index');
+
+$routes->post('/admin/regimes/(:num)/activites', 'Activites::associerAuRegime/$1');
 
 $routes->get('/profil/modifier-infos-perso', 'Profil::editPerso');
 $routes->post('/profil/modifier-infos-perso', 'Profil::updatePerso');
