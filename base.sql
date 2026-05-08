@@ -39,6 +39,14 @@ CREATE TABLE regime_activites (
     duree INT
 );
 
+CREATE TABLE regime_regime_activites (
+    regime_id INT NOT NULL,
+    activite_id INT NOT NULL,
+    PRIMARY KEY (regime_id, activite_id),
+    FOREIGN KEY (regime_id) REFERENCES regime_regimes(id) ON DELETE CASCADE,
+    FOREIGN KEY (activite_id) REFERENCES regime_activites(id) ON DELETE CASCADE
+);
+
 CREATE TABLE regime_codes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     code VARCHAR(50),

@@ -17,10 +17,6 @@ $routes->post('/login', 'Auth::authenticate');
 $routes->get('/logout', 'Auth::logout');
 $routes->get('/profil', 'Profil::index');
 
-$routes->get('/profil/objectif', 'Objectifs::index');
-$routes->post('/profil/objectif', 'Objectifs::save');
-$routes->get('/regimes/suggestions', 'Regimes::suggestions');
-
 $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
 $routes->get('/admin/logout', 'AdminAuth::logout');

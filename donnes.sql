@@ -20,6 +20,25 @@ INSERT INTO regime_activites (nom, description, duree) VALUES
 ('Yoga', 'Relaxation et souplesse', 40),
 ('Vélo', 'Cyclisme pour cardio', 50);
 
+INSERT INTO regime_regime_activites (regime_id, activite_id) VALUES
+-- Perte rapide
+(1, 1),
+(1, 2),
+(1, 5),
+-- Fitness
+(2, 1),
+(2, 3),
+(2, 5),
+-- Végétarien
+(3, 2),
+(3, 4),
+-- Musculation
+(4, 3),
+-- Equilibre
+(5, 2),
+(5, 4),
+(5, 5);
+
 INSERT INTO regime_codes (code, montant, used) VALUES
 ('CODE001', 10000, 0),
 ('CODE002', 15000, 0),

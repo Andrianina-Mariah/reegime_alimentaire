@@ -57,14 +57,6 @@
                     <span>Infos sante</span>
                     <strong>Modifier la taille et le poids</strong>
                 </a>
-                <a class="profile-action-card profile-action-sante" href="/profil/objectif">
-                    <span>Objectif</span>
-                    <strong>Choisir ton objectif et voir l'impact</strong>
-                </a>
-                <a class="profile-action-card profile-action-regimes" href="/regimes/suggestions">
-                    <span>Suggestions</span>
-                    <strong>Voir les regimes adaptes a ton objectif</strong>
-                </a>
             </div>
 
             <div class="profile-section">
