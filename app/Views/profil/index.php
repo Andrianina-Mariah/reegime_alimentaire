@@ -57,6 +57,10 @@
                     <span>Infos sante</span>
                     <strong>Modifier la taille et le poids</strong>
                 </a>
+                <a class="profile-action-card profile-action-sante" href="/profil/objectif">
+                    <span>Objectif</span>
+                    <strong>Choisir ton objectif et voir l'impact</strong>
+                </a>
             </div>
 
             <div class="profile-section">
