@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\GoldOption;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Repositories\RegimeRepository;
 use App\Repositories\RegimeRepositoryInterface;
 use App\Repositories\RegimeSanteRepository;
@@ -91,6 +92,7 @@ class Regimes extends BaseController
         }
 
         $userId = (int) session('user_id');
+
         if ($userId <= 0) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Session invalide. Merci de te reconnecter.',
@@ -103,11 +105,13 @@ class Regimes extends BaseController
     public function index()
     {
         $userId = $this->requireUserId();
+
         if (! is_int($userId)) {
             return $userId;
         }
 
         $user = $this->utilisateurRepo->findById($userId);
+
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
@@ -115,12 +119,17 @@ class Regimes extends BaseController
         }
 
         $sante = $this->santeRepo->findByUserId($userId);
+
         $imc = null;
+
         if (isset($sante['imc'])) {
             $imc = (float) $sante['imc'];
         } elseif (isset($sante['taille'], $sante['poids'])) {
             $tailleMetres = ((float) $sante['taille']) / 100;
-            $imc = $tailleMetres > 0 ? round(((float) $sante['poids']) / ($tailleMetres * $tailleMetres), 2) : null;
+
+            $imc = $tailleMetres > 0
+                ? round(((float) $sante['poids']) / ($tailleMetres * $tailleMetres), 2)
+                : null;
         }
 
         $categorieImc = $this->categorieImc($imc);
@@ -173,11 +182,18 @@ class Regimes extends BaseController
         ]);
     }
 
-    public function exportPdf(int $id)
+    public function pdf(int $regimeId)
     {
         $userId = $this->requireUserId();
+
         if (! is_int($userId)) {
             return $userId;
+        }
+
+        if ($regimeId <= 0) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Régime invalide.',
+            ]);
         }
 
         if (! class_exists(Dompdf::class)) {
@@ -186,71 +202,114 @@ class Regimes extends BaseController
             ]);
         }
 
-        if ($id <= 0) {
-            return redirect()->back()->with('errors', [
-                'regime' => 'Régime invalide.',
-            ]);
-        }
-
         $user = $this->utilisateurRepo->findById($userId);
+
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
             ]);
         }
 
-        $regime = $this->regimeRepo->findById($id);
+        $regime = $this->regimeRepo->findById($regimeId);
+
         if ($regime === null) {
-            return redirect()->back()->with('errors', [
+            return redirect()->to('/regimes')->with('errors', [
                 'regime' => 'Régime introuvable.',
             ]);
-        }
-
-        $sante = $this->santeRepo->findByUserId($userId);
-        $imc = null;
-        if (isset($sante['imc'])) {
-            $imc = (float) $sante['imc'];
-        } elseif (isset($sante['taille'], $sante['poids'])) {
-            $tailleMetres = ((float) $sante['taille']) / 100;
-            $imc = $tailleMetres > 0 ? round(((float) $sante['poids']) / ($tailleMetres * $tailleMetres), 2) : null;
         }
 
         $activites = db_connect()
             ->table('regime_regime_activites rra')
             ->select('a.id, a.nom, a.description, a.duree')
             ->join('regime_activites a', 'a.id = rra.activite_id', 'inner')
-            ->where('rra.regime_id', $id)
+            ->where('rra.regime_id', $regimeId)
             ->orderBy('a.nom', 'asc')
             ->get()
             ->getResultArray();
 
-        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+        $sante = $this->santeRepo->findByUserId($userId);
+
+        $imc = null;
+
+        if (isset($sante['imc'])) {
+            $imc = (float) $sante['imc'];
+        } elseif (isset($sante['taille'], $sante['poids'])) {
+            $tailleMetres = ((float) $sante['taille']) / 100;
+
+            $imc = $tailleMetres > 0
+                ? round(((float) $sante['poids']) / ($tailleMetres * $tailleMetres), 2)
+                : null;
+        }
+
+        $categorieImc = $this->categorieImc($imc);
+
+        $objectif = $this->resolveObjectif(
+            $user['objectif'] ?? null,
+            $categorieImc
+        );
+
+        $objectifLabel = match ($objectif) {
+            'perte_poids' => 'Perte de poids',
+            'prise_poids' => 'Prise de poids',
+            default => 'Maintien',
+        };
+
         $goldDetails = GoldOption::details();
+
+        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+
         $discountRate = (float) ($goldDetails['discountRate'] ?? 0.15);
+
         $prix = (float) ($regime['prix'] ?? 0);
-        $prixFinal = $isGold ? $prix * (1 - $discountRate) : $prix;
+
+        $prixFinal = $isGold
+            ? $prix * (1 - $discountRate)
+            : $prix;
+
+        $formatNumber = static function ($value): string {
+            return number_format((float) $value, 0, ',', ' ');
+        };
 
         $html = view('regimes/pdf', [
+            'regime' => $regime,
+            'activites' => $activites,
             'user' => $user,
             'sante' => $sante,
             'imc' => $imc,
-            'regime' => $regime,
-            'activites' => $activites,
             'isGold' => $isGold,
             'goldDetails' => $goldDetails,
             'prixFinal' => $prixFinal,
+            'formatNumber' => $formatNumber,
+            'objectifLabel' => $objectifLabel,
+            'categorieImcLabel' => $categorieImc['label'] ?? null,
         ]);
 
-        $dompdf = new Dompdf();
+        $options = new Options();
+        $options->set('isRemoteEnabled', false);
+        $options->set('defaultFont', 'DejaVu Sans');
+
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml($html, 'UTF-8');
         $dompdf->setPaper('A4', 'portrait');
-        $dompdf->loadHtml($html);
         $dompdf->render();
 
-        $filename = 'regime-' . $id . '.pdf';
+        $nom = (string) ($regime['nom'] ?? 'regime');
+
+        $safeNom = preg_replace('/[^a-zA-Z0-9\-_]+/', '_', $nom) ?: 'regime';
+
+        $filename = sprintf(
+            'regime_%d_%s.pdf',
+            $regimeId,
+            $safeNom
+        );
 
         return $this->response
             ->setContentType('application/pdf')
-            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->setHeader(
+                'Content-Disposition',
+                'attachment; filename="' . $filename . '"'
+            )
             ->setBody($dompdf->output());
     }
 }

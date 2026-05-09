@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Libraries\GoldOption;
+use App\Models\RegimeWalletModel;
 use App\Repositories\RegimeSanteRepository;
 use App\Repositories\RegimeSanteRepositoryInterface;
 use App\Repositories\RegimeUtilisateurRepository;
@@ -51,6 +53,18 @@ class Profil extends BaseController
         $user = $this->utilisateurRepo->findById($userId);
         $sante = $this->santeRepo->findByUserId($userId);
 
+        $walletModel = new RegimeWalletModel();
+        $wallet = $walletModel->where('user_id', $userId)->first();
+
+        if ($wallet === null) {
+            $walletModel->insert([
+                'user_id' => $userId,
+                'solde' => 0,
+            ]);
+
+            $wallet = $walletModel->where('user_id', $userId)->first();
+        }
+
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
@@ -60,6 +74,8 @@ class Profil extends BaseController
         return view('profil/index', [
             'user' => $user,
             'sante' => $sante,
+            'wallet' => $wallet,
+            'goldDetails' => GoldOption::details(),
             'objectifs' => $this->objectifsDisponibles(),
         ]);
     }
@@ -73,6 +89,7 @@ class Profil extends BaseController
         }
 
         $userId = (int) session('user_id');
+
         if ($userId <= 0) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Session invalide. Merci de te reconnecter.',
