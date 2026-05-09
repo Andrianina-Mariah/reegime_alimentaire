@@ -35,6 +35,16 @@ $routes->get('/admin/dashboard', 'AdminDashboard::index');
 
 $routes->post('/admin/regimes/(:num)/activites', 'Activites::associerAuRegime/$1');
 
+// CRUD Activités (utilisateurs)
+$routes->get('/activites', 'UtilisateurActivites::index');
+$routes->get('/activites/nouveau', 'UtilisateurActivites::create');
+$routes->post('/activites', 'UtilisateurActivites::store');
+$routes->get('/activites/(:num)/modifier', 'UtilisateurActivites::edit/$1');
+$routes->post('/activites/(:num)/modifier', 'UtilisateurActivites::update/$1');
+$routes->post('/activites/(:num)/supprimer', 'UtilisateurActivites::delete/$1');
+
+
+
 $routes->get('/profil/modifier-infos-perso', 'Profil::editPerso');
 $routes->post('/profil/modifier-infos-perso', 'Profil::updatePerso');
 $routes->get('/profil/modifier-infos-sante', 'Profil::editSante');

@@ -37,7 +37,10 @@
             <div class="profile-topbar">
                 <a class="back-link" href="/profil">Retour au profil</a>
                 <a class="logout-button" href="/logout">Deconnexion</a>
+                <a class="primary-button" href="/activites" style="margin-left: .5rem;">Gérer les activités</a>
             </div>
+
+
 
             <div class="card-heading">
                 <span class="step-pill">RG</span>
