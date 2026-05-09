@@ -10,6 +10,7 @@ class RegimeActiviteModel extends Model
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
+
     protected $allowedFields = [
         'nom',
         'description',

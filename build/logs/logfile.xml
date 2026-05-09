@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\projets\reegime_alimentaire\phpunit.xml.dist" tests="5" assertions="4" errors="2" failures="0" skipped="0" time="0.742149">
+    <testsuite name="App" tests="5" assertions="4" errors="2" failures="0" skipped="0" time="0.742149">
+      <testsuite name="ExampleDatabaseTest" file="C:\projets\reegime_alimentaire\tests\database\ExampleDatabaseTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000000">
+        <testcase name="testModelFindAll" file="C:\projets\reegime_alimentaire\tests\database\ExampleDatabaseTest.php" line="17" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
+          <error type="CodeIgniter\Exceptions\CriticalError">ExampleDatabaseTest::testModelFindAll&#13;
+CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+&#13;
+C:\projets\reegime_alimentaire\system\Database\Database.php:186
+C:\projets\reegime_alimentaire\system\Database\Database.php:59
+C:\projets\reegime_alimentaire\system\Database\Config.php:82
+C:\projets\reegime_alimentaire\system\Test\DatabaseTestTrait.php:90
+C:\projets\reegime_alimentaire\system\Test\DatabaseTestTrait.php:67
+C:\projets\reegime_alimentaire\system\Test\CIUnitTestCase.php:254</error>
+        </testcase>
+        <testcase name="testSoftDeleteLeavesRow" file="C:\projets\reegime_alimentaire\tests\database\ExampleDatabaseTest.php" line="28" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
+          <error type="CodeIgniter\Exceptions\CriticalError">ExampleDatabaseTest::testSoftDeleteLeavesRow&#13;
+CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
+&#13;
+C:\projets\reegime_alimentaire\system\Database\Database.php:186
+C:\projets\reegime_alimentaire\system\Database\Database.php:59
+C:\projets\reegime_alimentaire\system\Database\Config.php:82
+C:\projets\reegime_alimentaire\system\Test\DatabaseTestTrait.php:90
+C:\projets\reegime_alimentaire\system\Test\DatabaseTestTrait.php:67
+C:\projets\reegime_alimentaire\system\Test\CIUnitTestCase.php:254</error>
+        </testcase>
+      </testsuite>
+      <testsuite name="ExampleSessionTest" file="C:\projets\reegime_alimentaire\tests\session\ExampleSessionTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.154128">
+        <testcase name="testSessionSimple" file="C:\projets\reegime_alimentaire\tests\session\ExampleSessionTest.php" line="10" class="ExampleSessionTest" classname="ExampleSessionTest" assertions="1" time="0.154128"/>
+      </testsuite>
+      <testsuite name="HealthTest" file="C:\projets\reegime_alimentaire\tests\unit\HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.588021">
+        <testcase name="testIsDefinedAppPath" file="C:\projets\reegime_alimentaire\tests\unit\HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="0.029910"/>
+        <testcase name="testBaseUrlHasBeenSet" file="C:\projets\reegime_alimentaire\tests\unit\HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.558111"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

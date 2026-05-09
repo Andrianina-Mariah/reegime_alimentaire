@@ -1,13 +1,13 @@
 <?php
-    $formatNumber = static function ($value): string {
-        return number_format((float) $value, 0, ',', ' ');
-    };
+$formatNumber = static function ($value): string {
+    return number_format((float) $value, 0, ',', ' ');
+};
 
-    $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
-    $discountRate = (float) ($goldDetails['discountRate'] ?? 0.15);
-    $discountLabel = (string) ($goldDetails['discountLabel'] ?? '-15%');
-    $goldPrice = (float) ($goldDetails['price'] ?? 0);
-    $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
+$isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+$discountRate = (float) ($goldDetails['discountRate'] ?? 0.15);
+$discountLabel = (string) ($goldDetails['discountLabel'] ?? '-15%');
+$goldPrice = (float) ($goldDetails['price'] ?? 0);
+$goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
 ?>
 
 <!DOCTYPE html>
@@ -38,13 +38,10 @@
                 <strong><?= esc($categorieImc['label'] ?? 'IMC non disponible') ?></strong>
             </p>
 
-            <p>
-                Choisis un régime pour voir les activités recommandées.
-            </p>
+            <p>Choisis un régime pour voir les activités recommandées.</p>
 
             <div class="progress-card">
                 <span>Total</span>
-
                 <strong><?= esc((string) count($regimes ?? [])) ?></strong>
             </div>
         </section>
@@ -52,12 +49,10 @@
         <section class="auth-card">
 
             <div class="profile-topbar">
-                <a class="back-link" href="/profil">
-                    Retour au profil
-                </a>
-
-                <a class="logout-button" href="/logout">
-                    Deconnexion
+                <a class="back-link" href="/profil">Retour au profil</a>
+                <a class="logout-button" href="/logout">Déconnexion</a>
+                <a class="primary-button" href="/activites" style="margin-left: .5rem;">
+                    Gérer les activités
                 </a>
             </div>
 
@@ -66,9 +61,7 @@
 
                 <h2>Régimes disponibles</h2>
 
-                <p>
-                    Filtrés automatiquement selon la variation de poids.
-                </p>
+                <p>Filtrés automatiquement selon la variation de poids.</p>
             </div>
 
             <div class="summary-note" style="margin-bottom: 1rem;">
@@ -84,53 +77,35 @@
                 <br>
 
                 <?php if ($isGold): ?>
-
                     <strong>Statut :</strong> Gold actif
-
                 <?php else: ?>
-
                     <form action="/gold/activer" method="post" style="margin-top: .5rem;">
-                        <button type="submit" class="primary-button">
-                            Activer Gold
-                        </button>
-
+                        <button type="submit" class="primary-button">Activer Gold</button>
                         <a class="back-link" href="/wallet" style="margin-left: .5rem;">
                             Recharger wallet
                         </a>
                     </form>
-
                 <?php endif; ?>
             </div>
 
-            <?php if (! empty($filtreElargi)): ?>
-
+            <?php if (!empty($filtreElargi)): ?>
                 <div class="summary-note" style="margin-bottom: 1rem;">
-                    Peu de régimes trouvés :
-                    le filtre a été élargi pour proposer plus d'options.
+                    Peu de régimes trouvés : le filtre a été élargi pour proposer plus d'options.
                 </div>
-
             <?php endif; ?>
 
             <?php if (session('errors')): ?>
-
                 <div class="alert alert-error">
-
                     <?php foreach (session('errors') as $error): ?>
-
                         <p><?= esc($error) ?></p>
-
                     <?php endforeach; ?>
-
                 </div>
-
             <?php endif; ?>
 
             <?php if (empty($regimes)): ?>
-
                 <div class="summary-note">
                     Aucun régime disponible pour le moment.
                 </div>
-
             <?php else: ?>
 
                 <div class="suggestions-grid">
@@ -151,9 +126,7 @@
                         <article class="regime-card">
 
                             <header>
-                                <h3>
-                                    <?= esc($nom !== '' ? $nom : '-') ?>
-                                </h3>
+                                <h3><?= esc($nom !== '' ? $nom : '-') ?></h3>
 
                                 <span class="badge <?= $isGold ? 'badge-gold' : 'badge-default' ?>">
                                     <?= $isGold ? 'Gold ' . esc($discountLabel) : 'Standard' ?>
@@ -169,11 +142,9 @@
                             <div class="price-box">
 
                                 <?php if ($isGold): ?>
-
                                     <span class="price-old">
                                         <?= esc($formatNumber($prix)) ?> Ar
                                     </span>
-
                                 <?php endif; ?>
 
                                 <span class="price-new">
@@ -183,9 +154,7 @@
                             </div>
 
                             <?php if ($id > 0): ?>
-
                                 <div class="summary-note">
-
                                     <a href="/regimes/<?= esc((string) $id) ?>/activites">
                                         Voir activités recommandées
                                     </a>
@@ -195,9 +164,7 @@
                                     <a href="/regimes/<?= esc((string) $id) ?>/pdf">
                                         Télécharger PDF
                                     </a>
-
                                 </div>
-
                             <?php endif; ?>
 
                         </article>

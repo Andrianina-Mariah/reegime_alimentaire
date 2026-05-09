@@ -42,6 +42,8 @@ $routes->post('/wallet/recharge', 'Wallet::recharge');
 
 $routes->post('/gold/activer', 'Gold::activate');
 
+/* ================= ADMIN ================= */
+
 $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
 
@@ -68,3 +70,12 @@ $routes->get('/admin/activites/(:num)/modifier', 'AdminActivites::edit/$1');
 $routes->post('/admin/activites/(:num)/modifier', 'AdminActivites::update/$1');
 
 $routes->post('/admin/activites/(:num)/supprimer', 'AdminActivites::delete/$1');
+
+/* ================= USER ACTIVITES CRUD ================= */
+
+$routes->get('/activites', 'UtilisateurActivites::index');
+$routes->get('/activites/nouveau', 'UtilisateurActivites::create');
+$routes->post('/activites', 'UtilisateurActivites::store');
+$routes->get('/activites/(:num)/modifier', 'UtilisateurActivites::edit/$1');
+$routes->post('/activites/(:num)/modifier', 'UtilisateurActivites::update/$1');
+$routes->post('/activites/(:num)/supprimer', 'UtilisateurActivites::delete/$1');
