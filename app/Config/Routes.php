@@ -22,6 +22,7 @@ $routes->post('/profil/objectif', 'Objectifs::save');
 
 $routes->get('/regimes', 'Regimes::index');
 $routes->get('/regimes/(:num)/activites', 'Activites::recommandees/$1');
+$routes->get('/regimes/(:num)/pdf', 'Regimes::exportPdf/$1');
 $routes->get('/wallet', 'Wallet::index');
 $routes->post('/wallet/recharge', 'Wallet::recharge');
 

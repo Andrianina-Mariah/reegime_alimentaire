@@ -95,6 +95,8 @@
                             <?php if ($id > 0): ?>
                                 <div class="summary-note">
                                     <a href="/regimes/<?= esc((string) $id) ?>/activites">Voir activités recommandées</a>
+                                    <span>•</span>
+                                    <a href="/regimes/<?= esc((string) $id) ?>/pdf">Télécharger PDF</a>
                                 </div>
                             <?php endif; ?>
                         </article>

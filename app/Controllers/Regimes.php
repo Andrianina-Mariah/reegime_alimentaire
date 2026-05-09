@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\GoldOption;
+use Dompdf\Dompdf;
 use App\Repositories\RegimeRepository;
 use App\Repositories\RegimeRepositoryInterface;
 use App\Repositories\RegimeSanteRepository;
@@ -170,5 +171,86 @@ class Regimes extends BaseController
             'filtreElargi' => $filtreElargi,
             'goldDetails' => $goldDetails,
         ]);
+    }
+
+    public function exportPdf(int $id)
+    {
+        $userId = $this->requireUserId();
+        if (! is_int($userId)) {
+            return $userId;
+        }
+
+        if (! class_exists(Dompdf::class)) {
+            return redirect()->back()->with('errors', [
+                'pdf' => 'La librairie PDF est manquante. Installe DomPDF pour continuer.',
+            ]);
+        }
+
+        if ($id <= 0) {
+            return redirect()->back()->with('errors', [
+                'regime' => 'Régime invalide.',
+            ]);
+        }
+
+        $user = $this->utilisateurRepo->findById($userId);
+        if ($user === null) {
+            return redirect()->to('/login')->with('errors', [
+                'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
+            ]);
+        }
+
+        $regime = $this->regimeRepo->findById($id);
+        if ($regime === null) {
+            return redirect()->back()->with('errors', [
+                'regime' => 'Régime introuvable.',
+            ]);
+        }
+
+        $sante = $this->santeRepo->findByUserId($userId);
+        $imc = null;
+        if (isset($sante['imc'])) {
+            $imc = (float) $sante['imc'];
+        } elseif (isset($sante['taille'], $sante['poids'])) {
+            $tailleMetres = ((float) $sante['taille']) / 100;
+            $imc = $tailleMetres > 0 ? round(((float) $sante['poids']) / ($tailleMetres * $tailleMetres), 2) : null;
+        }
+
+        $activites = db_connect()
+            ->table('regime_regime_activites rra')
+            ->select('a.id, a.nom, a.description, a.duree')
+            ->join('regime_activites a', 'a.id = rra.activite_id', 'inner')
+            ->where('rra.regime_id', $id)
+            ->orderBy('a.nom', 'asc')
+            ->get()
+            ->getResultArray();
+
+        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+        $goldDetails = GoldOption::details();
+        $discountRate = (float) ($goldDetails['discountRate'] ?? 0.15);
+        $prix = (float) ($regime['prix'] ?? 0);
+        $prixFinal = $isGold ? $prix * (1 - $discountRate) : $prix;
+
+        $html = view('regimes/pdf', [
+            'user' => $user,
+            'sante' => $sante,
+            'imc' => $imc,
+            'regime' => $regime,
+            'activites' => $activites,
+            'isGold' => $isGold,
+            'goldDetails' => $goldDetails,
+            'prixFinal' => $prixFinal,
+        ]);
+
+        $dompdf = new Dompdf();
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $filename = 'regime-' . $id . '.pdf';
+
+        return $this->response
+            ->setContentType('application/pdf')
+            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->setBody($dompdf->output());
     }
 }
