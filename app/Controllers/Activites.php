@@ -2,10 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Models\RegimeModel;
+use App\Repositories\RegimeRepository;
+use App\Repositories\RegimeRepositoryInterface;
 
 class Activites extends BaseController
 {
+    protected RegimeRepositoryInterface $regimeRepo;
+
+    public function __construct(?RegimeRepositoryInterface $regimeRepo = null)
+    {
+        $this->regimeRepo = $regimeRepo ?? new RegimeRepository();
+    }
+
     private function requireUserId()
     {
         if (! session('is_logged_in')) {
@@ -58,8 +66,7 @@ class Activites extends BaseController
             ]);
         }
 
-        $regimeModel = new RegimeModel();
-        $regime = $regimeModel->find($regimeId);
+        $regime = $this->regimeRepo->findById($regimeId);
         if ($regime === null) {
             return redirect()->to('/profil')->with('errors', [
                 'regime' => 'Régime introuvable.',
@@ -99,8 +106,7 @@ class Activites extends BaseController
             ]);
         }
 
-        $regimeModel = new RegimeModel();
-        if ($regimeModel->find($regimeId) === null) {
+        if ($this->regimeRepo->findById($regimeId) === null) {
             return redirect()->back()->with('errors', [
                 'regime' => 'Régime introuvable.',
             ]);

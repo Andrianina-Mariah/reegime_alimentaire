@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-class DashboardRepository
+class DashboardRepository implements DashboardRepositoryInterface
 {
     private $db;
 

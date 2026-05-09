@@ -3,9 +3,17 @@
 namespace App\Controllers;
 
 use App\Repositories\DashboardRepository;
+use App\Repositories\DashboardRepositoryInterface;
 
 class AdminDashboard extends BaseController
 {
+    protected DashboardRepositoryInterface $dashboardRepo;
+
+    public function __construct(?DashboardRepositoryInterface $dashboardRepo = null)
+    {
+        $this->dashboardRepo = $dashboardRepo ?? new DashboardRepository();
+    }
+
     public function index(): string
     {
         if (! session('is_admin_logged_in')) {
@@ -14,19 +22,17 @@ class AdminDashboard extends BaseController
             ]);
         }
 
-        $repository = new DashboardRepository();
-
         return view('admin/dashboard', [
             'stats' => [
-                'utilisateurs' => $repository->countUtilisateurs(),
-                'regimes' => $repository->countRegimes(),
-                'activites' => $repository->countActivites(),
+                'utilisateurs' => $this->dashboardRepo->countUtilisateurs(),
+                'regimes' => $this->dashboardRepo->countRegimes(),
+                'activites' => $this->dashboardRepo->countActivites(),
             ],
             'charts' => [
-                'utilisateursGenre' => $repository->utilisateursParGenre(),
-                'utilisateursStatut' => $repository->utilisateursParStatut(),
-                'regimesPrix' => $repository->regimesParPrix(),
-                'revenus' => $repository->revenus(),
+                'utilisateursGenre' => $this->dashboardRepo->utilisateursParGenre(),
+                'utilisateursStatut' => $this->dashboardRepo->utilisateursParStatut(),
+                'regimesPrix' => $this->dashboardRepo->regimesParPrix(),
+                'revenus' => $this->dashboardRepo->revenus(),
             ],
         ]);
     }

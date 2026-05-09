@@ -2,10 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Models\RegimeAdminModel;
+use App\Repositories\RegimeAdminRepository;
+use App\Repositories\RegimeAdminRepositoryInterface;
 
 class AdminAuth extends BaseController
 {
+    protected RegimeAdminRepositoryInterface $adminRepo;
+
+    public function __construct(?RegimeAdminRepositoryInterface $adminRepo = null)
+    {
+        $this->adminRepo = $adminRepo ?? new RegimeAdminRepository();
+    }
+
     public function login(): string
     {
         return view('admin/login');
@@ -22,9 +30,8 @@ class AdminAuth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $admins = new RegimeAdminModel();
         $email = strtolower(trim((string) $this->request->getPost('email')));
-        $admin = $admins->where('email', $email)->first();
+        $admin = $this->adminRepo->findByEmail($email);
 
         if ($admin === null || ! password_verify((string) $this->request->getPost('password'), $admin['password'])) {
             return redirect()->back()->withInput()->with('errors', [

@@ -2,17 +2,23 @@
 
 namespace App\Controllers;
 
-use App\Models\ProduitModel;
+use App\Repositories\ProduitRepository;
+use App\Repositories\ProduitRepositoryInterface;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Produit extends BaseController
 {
+    protected ProduitRepositoryInterface $produitRepo;
+
+    public function __construct(?ProduitRepositoryInterface $produitRepo = null)
+    {
+        $this->produitRepo = $produitRepo ?? new ProduitRepository();
+    }
+
     public function index(): string
     {
-        $model = new ProduitModel();
-
         $data = [
-            'produits' => $model->orderBy('nom', 'ASC')->findAll(),
+            'produits' => $this->produitRepo->getAll(),
         ];
 
         return view('ProduitView', $data);
@@ -20,8 +26,7 @@ class Produit extends BaseController
 
     public function show(int $id): string
     {
-        $model = new ProduitModel();
-        $produit = $model->find($id);
+        $produit = $this->produitRepo->findById($id);
 
         if ($produit === null) {
             throw PageNotFoundException::forPageNotFound('Produit introuvable : ' . $id);

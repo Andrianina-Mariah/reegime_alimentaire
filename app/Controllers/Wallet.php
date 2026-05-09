@@ -2,11 +2,24 @@
 
 namespace App\Controllers;
 
-use App\Models\RegimeCodeModel;
-use App\Models\RegimeWalletModel;
+use App\Repositories\RegimeCodeRepository;
+use App\Repositories\RegimeCodeRepositoryInterface;
+use App\Repositories\RegimeWalletRepository;
+use App\Repositories\RegimeWalletRepositoryInterface;
 
 class Wallet extends BaseController
 {
+    protected RegimeWalletRepositoryInterface $walletRepo;
+    protected RegimeCodeRepositoryInterface $codeRepo;
+
+    public function __construct(
+        ?RegimeWalletRepositoryInterface $walletRepo = null,
+        ?RegimeCodeRepositoryInterface $codeRepo = null
+    ) {
+        $this->walletRepo = $walletRepo ?? new RegimeWalletRepository();
+        $this->codeRepo = $codeRepo ?? new RegimeCodeRepository();
+    }
+
     private function requireUserId()
     {
         if (! session('is_logged_in')) {
@@ -32,15 +45,14 @@ class Wallet extends BaseController
             return $userId;
         }
 
-        $walletModel = new RegimeWalletModel();
-        $wallet = $walletModel->where('user_id', $userId)->first();
+        $wallet = $this->walletRepo->findByUserId($userId);
 
         if ($wallet === null) {
-            $walletModel->insert([
+            $this->walletRepo->store([
                 'user_id' => $userId,
                 'solde' => 0,
             ]);
-            $wallet = $walletModel->where('user_id', $userId)->first();
+            $wallet = $this->walletRepo->findByUserId($userId);
         }
 
         return view('wallet/index', [
@@ -62,19 +74,16 @@ class Wallet extends BaseController
             ]);
         }
 
-        $walletModel = new RegimeWalletModel();
-        $codeModel = new RegimeCodeModel();
-
-        $wallet = $walletModel->where('user_id', $userId)->first();
+        $wallet = $this->walletRepo->findByUserId($userId);
         if ($wallet === null) {
-            $walletModel->insert([
+            $this->walletRepo->store([
                 'user_id' => $userId,
                 'solde' => 0,
             ]);
-            $wallet = $walletModel->where('user_id', $userId)->first();
+            $wallet = $this->walletRepo->findByUserId($userId);
         }
 
-        $codeRow = $codeModel->where('code', $code)->first();
+        $codeRow = $this->codeRepo->findByCode($code);
         if ($codeRow === null) {
             return redirect()->back()->withInput()->with('errors', [
                 'code' => 'Code invalide.',
@@ -97,11 +106,11 @@ class Wallet extends BaseController
         $db = db_connect();
         $db->transStart();
 
-        $walletModel->update($wallet['id'], [
+        $this->walletRepo->update($wallet['id'], [
             'solde' => (float) ($wallet['solde'] ?? 0) + $montant,
         ]);
 
-        $codeModel->update($codeRow['id'], [
+        $this->codeRepo->update($codeRow['id'], [
             'used' => 1,
         ]);
 

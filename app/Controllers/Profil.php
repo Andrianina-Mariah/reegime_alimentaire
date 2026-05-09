@@ -2,11 +2,24 @@
 
 namespace App\Controllers;
 
-use App\Models\RegimeSanteModel;
-use App\Models\RegimeUtilisateurModel;
+use App\Repositories\RegimeSanteRepository;
+use App\Repositories\RegimeSanteRepositoryInterface;
+use App\Repositories\RegimeUtilisateurRepository;
+use App\Repositories\RegimeUtilisateurRepositoryInterface;
 
 class Profil extends BaseController
 {
+    protected RegimeUtilisateurRepositoryInterface $utilisateurRepo;
+    protected RegimeSanteRepositoryInterface $santeRepo;
+
+    public function __construct(
+        ?RegimeUtilisateurRepositoryInterface $utilisateurRepo = null,
+        ?RegimeSanteRepositoryInterface $santeRepo = null
+    ) {
+        $this->utilisateurRepo = $utilisateurRepo ?? new RegimeUtilisateurRepository();
+        $this->santeRepo = $santeRepo ?? new RegimeSanteRepository();
+    }
+
     /**
      * @return array<string,string>
      */
@@ -35,11 +48,8 @@ class Profil extends BaseController
             ]);
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $santeModel = new RegimeSanteModel();
-
-        $user = $utilisateurs->find($userId);
-        $sante = $santeModel->where('user_id', $userId)->first();
+        $user = $this->utilisateurRepo->findById($userId);
+        $sante = $this->santeRepo->findByUserId($userId);
 
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
@@ -78,8 +88,7 @@ class Profil extends BaseController
             ]);
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $utilisateurs->update($userId, [
+        $this->utilisateurRepo->update($userId, [
             'objectif' => $objectif,
         ]);
 
@@ -102,8 +111,7 @@ class Profil extends BaseController
             ]);
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $user = $utilisateurs->find($userId);
+        $user = $this->utilisateurRepo->findById($userId);
 
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
@@ -142,9 +150,8 @@ class Profil extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
         $email = strtolower(trim((string) $this->request->getPost('email')));
-        $existing = $utilisateurs->where('email', $email)->where('id !=', $userId)->first();
+        $existing = $this->utilisateurRepo->findByEmailExceptId($email, $userId);
 
         if ($existing !== null) {
             return redirect()->back()->withInput()->with('errors', [
@@ -152,7 +159,7 @@ class Profil extends BaseController
             ]);
         }
 
-        $utilisateurs->update($userId, [
+        $this->utilisateurRepo->update($userId, [
             'nom' => trim((string) $this->request->getPost('nom')),
             'email' => $email,
             'genre' => (string) $this->request->getPost('genre'),
@@ -182,8 +189,7 @@ class Profil extends BaseController
             ]);
         }
 
-        $santeModel = new RegimeSanteModel();
-        $sante = $santeModel->where('user_id', $userId)->first();
+        $sante = $this->santeRepo->findByUserId($userId);
 
         return view('profil/edit_sante', [
             'sante' => $sante,
@@ -220,18 +226,17 @@ class Profil extends BaseController
         $tailleMetres = $taille / 100;
         $imc = $tailleMetres > 0 ? round($poids / ($tailleMetres * $tailleMetres), 2) : 0;
 
-        $santeModel = new RegimeSanteModel();
-        $existing = $santeModel->where('user_id', $userId)->first();
+        $existing = $this->santeRepo->findByUserId($userId);
 
         if ($existing === null) {
-            $santeModel->insert([
+            $this->santeRepo->store([
                 'user_id' => $userId,
                 'taille' => $taille,
                 'poids' => $poids,
                 'imc' => $imc,
             ]);
         } else {
-            $santeModel->update($existing['id'], [
+            $this->santeRepo->update($existing['id'], [
                 'taille' => $taille,
                 'poids' => $poids,
                 'imc' => $imc,

@@ -29,6 +29,18 @@ $routes->get('/admin/login', 'AdminAuth::login');
 $routes->post('/admin/login', 'AdminAuth::authenticate');
 $routes->get('/admin/logout', 'AdminAuth::logout');
 $routes->get('/admin/dashboard', 'AdminDashboard::index');
+$routes->get('/admin/regimes', 'AdminRegimes::index');
+$routes->get('/admin/regimes/creer', 'AdminRegimes::create');
+$routes->post('/admin/regimes/creer', 'AdminRegimes::store');
+$routes->get('/admin/regimes/(:num)/modifier', 'AdminRegimes::edit/$1');
+$routes->post('/admin/regimes/(:num)/modifier', 'AdminRegimes::update/$1');
+$routes->post('/admin/regimes/(:num)/supprimer', 'AdminRegimes::delete/$1');
+$routes->get('/admin/activites', 'AdminActivites::index');
+$routes->get('/admin/activites/creer', 'AdminActivites::create');
+$routes->post('/admin/activites/creer', 'AdminActivites::store');
+$routes->get('/admin/activites/(:num)/modifier', 'AdminActivites::edit/$1');
+$routes->post('/admin/activites/(:num)/modifier', 'AdminActivites::update/$1');
+$routes->post('/admin/activites/(:num)/supprimer', 'AdminActivites::delete/$1');
 
 $routes->post('/admin/regimes/(:num)/activites', 'Activites::associerAuRegime/$1');
 

@@ -2,12 +2,29 @@
 
 namespace App\Controllers;
 
-use App\Models\RegimeSanteModel;
-use App\Models\RegimeUtilisateurModel;
-use App\Models\RegimeWalletModel;
+use App\Repositories\RegimeSanteRepository;
+use App\Repositories\RegimeSanteRepositoryInterface;
+use App\Repositories\RegimeUtilisateurRepository;
+use App\Repositories\RegimeUtilisateurRepositoryInterface;
+use App\Repositories\RegimeWalletRepository;
+use App\Repositories\RegimeWalletRepositoryInterface;
 
 class Auth extends BaseController
 {
+    protected RegimeUtilisateurRepositoryInterface $utilisateurRepo;
+    protected RegimeSanteRepositoryInterface $santeRepo;
+    protected RegimeWalletRepositoryInterface $walletRepo;
+
+    public function __construct(
+        ?RegimeUtilisateurRepositoryInterface $utilisateurRepo = null,
+        ?RegimeSanteRepositoryInterface $santeRepo = null,
+        ?RegimeWalletRepositoryInterface $walletRepo = null
+    ) {
+        $this->utilisateurRepo = $utilisateurRepo ?? new RegimeUtilisateurRepository();
+        $this->santeRepo = $santeRepo ?? new RegimeSanteRepository();
+        $this->walletRepo = $walletRepo ?? new RegimeWalletRepository();
+    }
+
     public function registerStepOne(): string
     {
         return view('auth/register_step1');
@@ -26,10 +43,9 @@ class Auth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
         $email = strtolower(trim((string) $this->request->getPost('email')));
 
-        if ($utilisateurs->where('email', $email)->first() !== null) {
+        if ($this->utilisateurRepo->findByEmail($email) !== null) {
             return redirect()->back()->withInput()->with('errors', [
                 'email' => 'Cet email est deja utilise.',
             ]);
@@ -79,27 +95,23 @@ class Auth extends BaseController
         $poids = (float) $this->request->getPost('poids');
 
         $db = db_connect();
-        $utilisateurs = new RegimeUtilisateurModel();
-        $sante = new RegimeSanteModel();
-
         $db->transStart();
 
-        $userId = $utilisateurs->insert([
+        $userId = $this->utilisateurRepo->store([
             'nom' => $stepOne['nom'],
             'email' => $stepOne['email'],
             'password' => $stepOne['password'],
             'genre' => $stepOne['genre'],
             'is_gold' => 0,
-        ], true);
+        ]);
 
-        $sante->insert([
+        $this->santeRepo->store([
             'user_id' => $userId,
             'taille' => $taille,
             'poids' => $poids,
         ]);
 
-        $walletModel = new RegimeWalletModel();
-        $walletModel->insert([
+        $this->walletRepo->store([
             'user_id' => $userId,
             'solde' => 0,
         ]);
@@ -133,9 +145,8 @@ class Auth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
         $email = strtolower(trim((string) $this->request->getPost('email')));
-        $user = $utilisateurs->where('email', $email)->first();
+        $user = $this->utilisateurRepo->findByEmail($email);
 
         if ($user === null || ! password_verify((string) $this->request->getPost('password'), $user['password'])) {
             return redirect()->back()->withInput()->with('errors', [

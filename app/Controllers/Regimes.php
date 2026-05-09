@@ -3,12 +3,29 @@
 namespace App\Controllers;
 
 use App\Libraries\GoldOption;
-use App\Models\RegimeModel;
-use App\Models\RegimeSanteModel;
-use App\Models\RegimeUtilisateurModel;
+use App\Repositories\RegimeRepository;
+use App\Repositories\RegimeRepositoryInterface;
+use App\Repositories\RegimeSanteRepository;
+use App\Repositories\RegimeSanteRepositoryInterface;
+use App\Repositories\RegimeUtilisateurRepository;
+use App\Repositories\RegimeUtilisateurRepositoryInterface;
 
 class Regimes extends BaseController
 {
+    protected RegimeUtilisateurRepositoryInterface $utilisateurRepo;
+    protected RegimeSanteRepositoryInterface $santeRepo;
+    protected RegimeRepositoryInterface $regimeRepo;
+
+    public function __construct(
+        ?RegimeUtilisateurRepositoryInterface $utilisateurRepo = null,
+        ?RegimeSanteRepositoryInterface $santeRepo = null,
+        ?RegimeRepositoryInterface $regimeRepo = null
+    ) {
+        $this->utilisateurRepo = $utilisateurRepo ?? new RegimeUtilisateurRepository();
+        $this->santeRepo = $santeRepo ?? new RegimeSanteRepository();
+        $this->regimeRepo = $regimeRepo ?? new RegimeRepository();
+    }
+
     /**
      * @return array{key:string,label:string}
      */
@@ -89,18 +106,14 @@ class Regimes extends BaseController
             return $userId;
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $santeModel = new RegimeSanteModel();
-        $regimeModel = new RegimeModel();
-
-        $user = $utilisateurs->find($userId);
+        $user = $this->utilisateurRepo->findById($userId);
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
             ]);
         }
 
-        $sante = $santeModel->where('user_id', $userId)->first();
+        $sante = $this->santeRepo->findByUserId($userId);
         $imc = null;
         if (isset($sante['imc'])) {
             $imc = (float) $sante['imc'];
@@ -122,49 +135,25 @@ class Regimes extends BaseController
         $filtreElargi = false;
 
         if ($objectif === 'perte_poids') {
-            $regimes = $regimeModel
-                ->where('variation_poids <', 0)
-                ->orderBy('variation_poids', 'asc')
-                ->findAll();
+            $regimes = $this->regimeRepo->findByVariationLessThan(0);
 
             if (count($regimes) <= 1) {
                 $filtreElargi = true;
-                $regimes = $regimeModel
-                    ->where('variation_poids <=', 0)
-                    ->orderBy('variation_poids', 'asc')
-                    ->findAll();
+                $regimes = $this->regimeRepo->findByVariationLessThanOrEqual(0);
             }
         } elseif ($objectif === 'prise_poids') {
-            $regimes = $regimeModel
-                ->where('variation_poids >', 0)
-                ->orderBy('variation_poids', 'desc')
-                ->findAll();
+            $regimes = $this->regimeRepo->findByVariationGreaterThan(0);
 
             if (count($regimes) <= 1) {
                 $filtreElargi = true;
-                $regimes = $regimeModel
-                    ->where('variation_poids >=', 0)
-                    ->orderBy('variation_poids', 'desc')
-                    ->findAll();
+                $regimes = $this->regimeRepo->findByVariationGreaterThanOrEqual(0);
             }
         } else {
-            $regimes = $regimeModel
-                ->groupStart()
-                    ->where('variation_poids >=', -1)
-                    ->where('variation_poids <=', 1)
-                ->groupEnd()
-                ->orderBy('prix', 'asc')
-                ->findAll();
+            $regimes = $this->regimeRepo->findByVariationBetween(-1, 1);
 
             if (count($regimes) <= 1) {
                 $filtreElargi = true;
-                $regimes = $regimeModel
-                    ->groupStart()
-                        ->where('variation_poids >=', -2)
-                        ->where('variation_poids <=', 2)
-                    ->groupEnd()
-                    ->orderBy('prix', 'asc')
-                    ->findAll();
+                $regimes = $this->regimeRepo->findByVariationBetween(-2, 2);
             }
         }
 

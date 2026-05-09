@@ -3,11 +3,24 @@
 namespace App\Controllers;
 
 use App\Libraries\ObjectifLogic;
-use App\Models\RegimeSanteModel;
-use App\Models\RegimeUtilisateurModel;
+use App\Repositories\RegimeSanteRepository;
+use App\Repositories\RegimeSanteRepositoryInterface;
+use App\Repositories\RegimeUtilisateurRepository;
+use App\Repositories\RegimeUtilisateurRepositoryInterface;
 
 class Objectifs extends BaseController
 {
+    protected RegimeUtilisateurRepositoryInterface $utilisateurRepo;
+    protected RegimeSanteRepositoryInterface $santeRepo;
+
+    public function __construct(
+        ?RegimeUtilisateurRepositoryInterface $utilisateurRepo = null,
+        ?RegimeSanteRepositoryInterface $santeRepo = null
+    ) {
+        $this->utilisateurRepo = $utilisateurRepo ?? new RegimeUtilisateurRepository();
+        $this->santeRepo = $santeRepo ?? new RegimeSanteRepository();
+    }
+
     /**
      * @return array<string,string>
      */
@@ -45,17 +58,14 @@ class Objectifs extends BaseController
             return $userId;
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $santeModel = new RegimeSanteModel();
-
-        $user = $utilisateurs->find($userId);
+        $user = $this->utilisateurRepo->findById($userId);
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
                 'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
             ]);
         }
 
-        $sante = $santeModel->where('user_id', $userId)->first();
+        $sante = $this->santeRepo->findByUserId($userId);
 
         $imc = null;
         if (isset($sante['imc'])) {
@@ -101,8 +111,7 @@ class Objectifs extends BaseController
             ]);
         }
 
-        $utilisateurs = new RegimeUtilisateurModel();
-        $utilisateurs->update($userId, [
+        $this->utilisateurRepo->update($userId, [
             'objectif' => $objectif,
         ]);
 
