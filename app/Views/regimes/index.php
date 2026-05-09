@@ -48,6 +48,15 @@
             <div class="summary-note" style="margin-bottom: 1rem;">
                 Option Gold : <strong><?= esc($formatNumber($goldPrice)) ?> Ar</strong> (<?= esc($goldAccess) ?>)
                 <br>Remise appliquée : <?= esc($discountLabel) ?> sur tous les régimes.
+                <br>
+                <?php if ($isGold): ?>
+                    <strong>Statut :</strong> Gold actif
+                <?php else: ?>
+                    <form action="/gold/activer" method="post" style="margin-top: .5rem;">
+                        <button type="submit" class="primary-button">Activer Gold</button>
+                        <a class="back-link" href="/wallet" style="margin-left: .5rem;">Recharger wallet</a>
+                    </form>
+                <?php endif; ?>
             </div>
 
             <?php if (! empty($filtreElargi)): ?>
@@ -95,6 +104,8 @@
                             <?php if ($id > 0): ?>
                                 <div class="summary-note">
                                     <a href="/regimes/<?= esc((string) $id) ?>/activites">Voir activités recommandées</a>
+                                    <br>
+                                    <a href="/regimes/<?= esc((string) $id) ?>/pdf">Exporter PDF</a>
                                 </div>
                             <?php endif; ?>
                         </article>

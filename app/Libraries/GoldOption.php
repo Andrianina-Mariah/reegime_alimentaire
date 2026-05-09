@@ -8,21 +8,39 @@ class GoldOption
     public const DISCOUNT_RATE = 0.15;
     public const ACCESS_MODE = 'Paiement unique, acces illimite aux remises.';
 
+    private static function config(): ?\Config\Gold
+    {
+        try {
+            /** @var \Config\Gold $cfg */
+            $cfg = config('Gold');
+            return $cfg;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
     /**
      * @return array{price:int,discountRate:float,discountLabel:string,accessMode:string}
      */
     public static function details(): array
     {
+        $cfg = self::config();
+        $price = $cfg?->priceAr ?? self::PRICE_AR;
+        $discountRate = $cfg?->discountRate ?? self::DISCOUNT_RATE;
+        $accessMode = $cfg?->accessMode ?? self::ACCESS_MODE;
+
         return [
-            'price' => self::PRICE_AR,
-            'discountRate' => self::DISCOUNT_RATE,
-            'discountLabel' => sprintf('-%d%%', (int) round(self::DISCOUNT_RATE * 100)),
-            'accessMode' => self::ACCESS_MODE,
+            'price' => $price,
+            'discountRate' => $discountRate,
+            'discountLabel' => sprintf('-%d%%', (int) round($discountRate * 100)),
+            'accessMode' => $accessMode,
         ];
     }
 
     public static function applyDiscount(float $prix): float
     {
-        return $prix * (1 - self::DISCOUNT_RATE);
+        $cfg = self::config();
+        $discountRate = $cfg?->discountRate ?? self::DISCOUNT_RATE;
+        return $prix * (1 - $discountRate);
     }
 }

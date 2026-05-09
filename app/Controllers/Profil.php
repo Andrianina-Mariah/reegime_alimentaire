@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Libraries\GoldOption;
 use App\Models\RegimeSanteModel;
 use App\Models\RegimeUtilisateurModel;
+use App\Models\RegimeWalletModel;
 
 class Profil extends BaseController
 {
@@ -37,9 +39,19 @@ class Profil extends BaseController
 
         $utilisateurs = new RegimeUtilisateurModel();
         $santeModel = new RegimeSanteModel();
+        $walletModel = new RegimeWalletModel();
 
         $user = $utilisateurs->find($userId);
         $sante = $santeModel->where('user_id', $userId)->first();
+        $wallet = $walletModel->where('user_id', $userId)->first();
+
+        if ($wallet === null) {
+            $walletModel->insert([
+                'user_id' => $userId,
+                'solde' => 0,
+            ]);
+            $wallet = $walletModel->where('user_id', $userId)->first();
+        }
 
         if ($user === null) {
             return redirect()->to('/login')->with('errors', [
@@ -50,6 +62,8 @@ class Profil extends BaseController
         return view('profil/index', [
             'user' => $user,
             'sante' => $sante,
+            'wallet' => $wallet,
+            'goldDetails' => GoldOption::details(),
             'objectifs' => $this->objectifsDisponibles(),
         ]);
     }

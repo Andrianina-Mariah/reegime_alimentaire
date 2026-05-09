@@ -71,6 +71,38 @@
                 </a>
             </div>
 
+            <?php
+                $formatNumber = static function ($value): string {
+                    return number_format((float) $value, 0, ',', ' ');
+                };
+                $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+                $goldPrice = (float) (($goldDetails['price'] ?? 0));
+                $goldAccess = (string) (($goldDetails['accessMode'] ?? ''));
+                $walletSolde = (float) (($wallet['solde'] ?? 0));
+            ?>
+
+            <div class="profile-section">
+                <div class="section-header">
+                    <h3>Option Gold</h3>
+                </div>
+                <div class="summary-note">
+                    Prix : <strong><?= esc($formatNumber($goldPrice)) ?> Ar</strong>
+                    <?php if ($goldAccess !== ''): ?>
+                        (<?= esc($goldAccess) ?>)
+                    <?php endif; ?>
+                    <br>Solde wallet : <strong><?= esc($formatNumber($walletSolde)) ?> Ar</strong>
+                </div>
+
+                <?php if ($isGold): ?>
+                    <div class="summary-note">Statut : <strong>Gold actif</strong></div>
+                <?php else: ?>
+                    <form class="auth-form" action="/gold/activer" method="post">
+                        <button type="submit" class="primary-button">Activer Gold</button>
+                        <a class="back-link" href="/wallet" style="margin-left: .5rem;">Recharger wallet</a>
+                    </form>
+                <?php endif; ?>
+            </div>
+
             <div class="profile-section">
                 <div class="section-header">
                     <h3>Informations personnelles</h3>
