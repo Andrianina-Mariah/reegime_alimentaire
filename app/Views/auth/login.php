@@ -47,12 +47,12 @@
             <form class="auth-form" action="/login" method="post">
                 <label for="email">
                     Email
-                    <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="nom@email.com" required>
+                    <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="jean@gmail.com" required>
                 </label>
 
                 <label for="password">
                     Mot de passe
-                    <input type="password" id="password" name="password" placeholder="Ton mot de passe" required>
+                    <input type="password" id="password" name="password" placeholder="123456(mdp base)" required>
                 </label>
 
                 <div class="form-row">
