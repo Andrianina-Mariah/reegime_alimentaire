@@ -16,12 +16,13 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Régimes</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/auth.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
 <body>
-    <main class="auth-shell profile-shell">
+    <main class="auth-shell profile-shell container-shell">
 
         <section class="auth-visual login-visual" aria-label="Presentation">
             <p class="eyebrow">Régimes</p>
@@ -49,9 +50,9 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
         <section class="auth-card">
 
             <div class="profile-topbar">
-                <a class="back-link" href="/profil">Retour au profil</a>
-                <a class="logout-button" href="/logout">Déconnexion</a>
-                <a class="primary-button" href="/activites" style="margin-left: .5rem;">
+                <a class="back-link btn btn-light btn-sm" href="/profil">Retour au profil</a>
+                <a class="logout-button btn btn-dark btn-sm" href="/logout">Déconnexion</a>
+                <a class="primary-button btn btn-success btn-sm" href="/activites" style="margin-left: .5rem;">
                     Gérer les activités
                 </a>
             </div>
@@ -80,8 +81,8 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
                     <strong>Statut :</strong> Gold actif
                 <?php else: ?>
                     <form action="/gold/activer" method="post" style="margin-top: .5rem;">
-                        <button type="submit" class="primary-button">Activer Gold</button>
-                        <a class="back-link" href="/wallet" style="margin-left: .5rem;">
+                        <button type="submit" class="primary-button btn btn-success btn-sm">Activer Gold</button>
+                        <a class="back-link btn btn-light btn-sm" href="/wallet" style="margin-left: .5rem;">
                             Recharger wallet
                         </a>
                     </form>
@@ -117,6 +118,8 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
                             $nom = (string) ($regime['nom'] ?? '');
                             $duree = (int) ($regime['duree'] ?? 0);
                             $prix = (float) ($regime['prix'] ?? 0);
+
+                            $isPurchased = isset($purchasedRegimes[$id]);
 
                             $prixFinal = $isGold
                                 ? $prix * (1 - $discountRate)
@@ -161,9 +164,25 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
 
                                     <br>
 
-                                    <a href="/regimes/<?= esc((string) $id) ?>/pdf">
-                                        Télécharger PDF
-                                    </a>
+                                    <?php if ($isPurchased): ?>
+                                        <a href="/regimes/<?= esc((string) $id) ?>/recettes">
+                                            Voir recettes du régime
+                                        </a>
+
+                                        <br>
+
+                                        <a href="/regimes/<?= esc((string) $id) ?>/pdf">
+                                            Télécharger PDF (recettes + activités)
+                                        </a>
+                                    <?php else: ?>
+                                        <form action="/regimes/<?= esc((string) $id) ?>/acheter" method="post" style="margin-top: .5rem;">
+                                            <button type="submit" class="primary-button btn btn-success btn-sm">Acheter ce régime</button>
+                                            <a class="back-link btn btn-light btn-sm" href="/wallet" style="margin-left: .5rem;">
+                                                Recharger wallet
+                                            </a>
+                                        </form>
+                                        <p class="small" style="margin-top: .5rem;">Les recettes sont accessibles après achat.</p>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
 

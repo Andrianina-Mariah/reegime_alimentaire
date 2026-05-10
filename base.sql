@@ -47,6 +47,22 @@ CREATE TABLE regime_regime_activites (
     FOREIGN KEY (activite_id) REFERENCES regime_activites(id) ON DELETE CASCADE
 );
 
+CREATE TABLE regime_recettes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(120),
+    description TEXT,
+    type_repas VARCHAR(30)
+);
+
+CREATE TABLE regime_regime_recettes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    regime_id INT NOT NULL,
+    recette_id INT NOT NULL,
+    jour INT NOT NULL,
+    FOREIGN KEY (regime_id) REFERENCES regime_regimes(id) ON DELETE CASCADE,
+    FOREIGN KEY (recette_id) REFERENCES regime_recettes(id) ON DELETE CASCADE
+);
+
 CREATE TABLE regime_codes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     code VARCHAR(50),
@@ -58,6 +74,16 @@ CREATE TABLE regime_wallet (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     solde FLOAT DEFAULT 0
+);
+
+CREATE TABLE regime_regime_achats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    regime_id INT NOT NULL,
+    prix_paye FLOAT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES regime_utilisateurs(id) ON DELETE CASCADE,
+    FOREIGN KEY (regime_id) REFERENCES regime_regimes(id) ON DELETE CASCADE
 );
 
 CREATE TABLE regime_admins (

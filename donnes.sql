@@ -39,6 +39,58 @@ INSERT INTO regime_regime_activites (regime_id, activite_id) VALUES
 (5, 4),
 (5, 5);
 
+INSERT INTO regime_recettes (nom, description, type_repas) VALUES
+('Bol d avoine aux fruits', 'Flocons d avoine, lait, banane, fruits rouges.', 'petit-dejeuner'),
+('Omelette aux légumes', 'Oeufs, tomates, poivrons, herbes.', 'petit-dejeuner'),
+('Salade quinoa poulet', 'Quinoa, poulet grillé, concombre, citron.', 'dejeuner'),
+('Poisson vapeur légumes', 'Filet de poisson, brocoli, carottes.', 'dejeuner'),
+('Soupe légumes verts', 'Courgette, épinards, herbes fraîches.', 'diner'),
+('Poulet grillé riz complet', 'Poulet, riz complet, haricots verts.', 'diner'),
+('Smoothie protéiné', 'Yaourt, banane, beurre de cacahuète.', 'collation'),
+('Salade végétarienne', 'Pois chiches, tomates, avocat.', 'dejeuner'),
+('Pâtes complètes sauce tomate', 'Pâtes complètes, tomate, basilic.', 'diner'),
+('Bowl fruits secs', 'Amandes, noix, fruits secs, yaourt.', 'collation');
+
+INSERT INTO regime_regime_recettes (regime_id, recette_id, jour) VALUES
+-- Perte rapide
+(1, 1, 1),
+(1, 3, 1),
+(1, 5, 1),
+(1, 2, 2),
+(1, 4, 2),
+(1, 5, 2),
+(1, 1, 3),
+(1, 3, 3),
+(1, 5, 3),
+-- Fitness
+(2, 2, 1),
+(2, 3, 1),
+(2, 6, 1),
+(2, 1, 2),
+(2, 4, 2),
+(2, 6, 2),
+-- Végétarien
+(3, 1, 1),
+(3, 8, 1),
+(3, 9, 1),
+(3, 1, 2),
+(3, 8, 2),
+(3, 9, 2),
+-- Musculation
+(4, 2, 1),
+(4, 3, 1),
+(4, 6, 1),
+(4, 7, 2),
+(4, 3, 2),
+(4, 6, 2),
+-- Equilibre
+(5, 1, 1),
+(5, 3, 1),
+(5, 5, 1),
+(5, 2, 2),
+(5, 4, 2),
+(5, 5, 2);
+
 INSERT INTO regime_codes (code, montant, used) VALUES
 ('CODE001', 10000, 0),
 ('CODE002', 15000, 0),
@@ -69,3 +121,6 @@ INSERT INTO regime_wallet (user_id, solde) VALUES
 (3, 10000),
 (4, 80000),
 (5, 15000);
+
+INSERT INTO regime_regime_achats (user_id, regime_id, prix_paye) VALUES
+(1, 1, 50000);

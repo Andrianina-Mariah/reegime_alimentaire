@@ -35,6 +35,8 @@ $routes->post('/profil/objectif', 'Profil::updateObjectif');
 
 $routes->get('/regimes', 'Regimes::index');
 $routes->get('/regimes/(:num)/activites', 'Activites::recommandees/$1');
+$routes->get('/regimes/(:num)/recettes', 'Regimes::recettes/$1');
+$routes->post('/regimes/(:num)/acheter', 'Regimes::acheter/$1');
 $routes->get('/regimes/(:num)/pdf', 'Regimes::pdf/$1');
 
 $routes->get('/wallet', 'Wallet::index');
@@ -59,6 +61,7 @@ $routes->get('/admin/regimes/(:num)/modifier', 'AdminRegimes::edit/$1');
 $routes->post('/admin/regimes/(:num)/modifier', 'AdminRegimes::update/$1');
 
 $routes->post('/admin/regimes/(:num)/supprimer', 'AdminRegimes::delete/$1');
+$routes->post('/admin/regimes/(:num)/recettes', 'AdminRegimes::saveRecettes/$1');
 
 $routes->post('/admin/regimes/(:num)/activites', 'Activites::associerAuRegime/$1');
 
@@ -70,6 +73,25 @@ $routes->get('/admin/activites/(:num)/modifier', 'AdminActivites::edit/$1');
 $routes->post('/admin/activites/(:num)/modifier', 'AdminActivites::update/$1');
 
 $routes->post('/admin/activites/(:num)/supprimer', 'AdminActivites::delete/$1');
+
+$routes->get('/admin/recettes', 'AdminRecettes::index');
+$routes->get('/admin/recettes/creer', 'AdminRecettes::create');
+$routes->post('/admin/recettes/creer', 'AdminRecettes::store');
+$routes->get('/admin/recettes/(:num)/modifier', 'AdminRecettes::edit/$1');
+$routes->post('/admin/recettes/(:num)/modifier', 'AdminRecettes::update/$1');
+$routes->post('/admin/recettes/(:num)/supprimer', 'AdminRecettes::delete/$1');
+
+$routes->get('/admin/planning-recettes', 'AdminRegimeRecettes::index');
+$routes->get('/admin/planning-recettes/creer', 'AdminRegimeRecettes::create');
+$routes->post('/admin/planning-recettes/creer', 'AdminRegimeRecettes::store');
+$routes->get('/admin/planning-recettes/(:num)/modifier', 'AdminRegimeRecettes::edit/$1');
+$routes->post('/admin/planning-recettes/(:num)/modifier', 'AdminRegimeRecettes::update/$1');
+$routes->post('/admin/planning-recettes/(:num)/supprimer', 'AdminRegimeRecettes::delete/$1');
+
+$routes->get('/admin/codes', 'AdminCodes::index');
+$routes->get('/admin/codes/creer', 'AdminCodes::create');
+$routes->post('/admin/codes/creer', 'AdminCodes::store');
+$routes->post('/admin/codes/(:num)/supprimer', 'AdminCodes::delete/$1');
 
 /* ================= USER ACTIVITES CRUD ================= */
 

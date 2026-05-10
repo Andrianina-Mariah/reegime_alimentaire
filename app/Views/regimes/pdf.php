@@ -162,5 +162,32 @@
 
     <?php endif; ?>
 
+    <h2>Recettes du régime</h2>
+
+    <?php if (empty($recettes)): ?>
+        <p class="small">Aucune recette associée à ce régime.</p>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Repas</th>
+                    <th>Recette</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recettes as $r): ?>
+                    <tr>
+                        <td><?= esc((string) ($r['jour'] ?? 0)) ?></td>
+                        <td><?= esc($r['type_repas'] ?? '-') ?></td>
+                        <td><?= esc($r['nom'] ?? '-') ?></td>
+                        <td><?= esc($r['description'] ?? '-') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+
 </body>
 </html>

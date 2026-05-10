@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier un regime</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
-    <main class="dashboard-shell">
+    <main class="dashboard-shell container-shell">
         <header class="dashboard-hero">
             <div>
                 <p class="eyebrow">Administration</p>
                 <h1>Modifier un regime</h1>
                 <p>Actualise les informations du programme selectionne.</p>
             </div>
-            <div class="hero-actions">
-                <a href="/admin/regimes" class="ghost-link">Retour liste</a>
+            <div class="hero-actions d-flex flex-wrap gap-2">
+                <a href="/admin/regimes" class="ghost-link btn btn-light btn-sm">Retour liste</a>
             </div>
         </header>
 
@@ -63,6 +65,49 @@
                 <div class="form-actions">
                     <button type="submit" class="primary-link">Enregistrer</button>
                     <a href="/admin/regimes" class="ghost-link">Annuler</a>
+                </div>
+            </form>
+        </section>
+
+        <section class="form-card">
+            <form class="admin-form" action="/admin/regimes/<?= esc((string) $regime['id']) ?>/recettes" method="post">
+                <div class="section-header">
+                    <h3>Associer des recettes au régime</h3>
+                </div>
+
+                <?php
+                    $existing = is_array($assignments ?? []) ? $assignments : [];
+                    $rows = $existing;
+                    $extraRows = max(3, 8 - count($rows));
+                    for ($i = 0; $i < $extraRows; $i++) {
+                        $rows[] = ['recette_id' => '', 'jour' => ''];
+                    }
+                ?>
+
+                <div class="form-grid">
+                    <?php foreach ($rows as $row): ?>
+                        <label>
+                            Jour
+                            <input type="number" name="jour[]" min="1" value="<?= esc((string) ($row['jour'] ?? '')) ?>">
+                        </label>
+                        <label>
+                            Recette
+                            <select name="recette_id[]">
+                                <option value="">-- Choisir --</option>
+                                <?php foreach (($recettes ?? []) as $recette): ?>
+                                    <option value="<?= esc((string) $recette['id']) ?>" <?= (string) ($row['recette_id'] ?? '') === (string) ($recette['id'] ?? '') ? 'selected' : '' ?>>
+                                        <?= esc($recette['nom'] ?? '-') ?>
+                                        (<?= esc($recette['type_repas'] ?? '-') ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-link">Sauvegarder les recettes</button>
+                    <a href="/admin/regimes" class="ghost-link">Retour liste</a>
                 </div>
             </form>
         </section>

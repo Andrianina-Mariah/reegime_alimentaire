@@ -18,6 +18,18 @@ class RegimeRepository implements RegimeRepositoryInterface
         return $this->model->orderBy('id', 'desc')->findAll();
     }
 
+    public function getAllWithRevenue()
+    {
+        return db_connect()
+            ->table('regime_regimes r')
+            ->select('r.*, COALESCE(SUM(a.prix_paye), 0) AS total_revenue, COUNT(a.id) AS achats_count')
+            ->join('regime_regime_achats a', 'a.regime_id = r.id', 'left')
+            ->groupBy('r.id')
+            ->orderBy('r.id', 'desc')
+            ->get()
+            ->getResultArray();
+    }
+
     public function findById(int $id)
     {
         return $this->model->find($id);

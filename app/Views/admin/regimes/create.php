@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un regime</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
-    <main class="dashboard-shell">
+    <main class="dashboard-shell container-shell">
         <header class="dashboard-hero">
             <div>
                 <p class="eyebrow">Administration</p>
                 <h1>Ajouter un regime</h1>
                 <p>Definis le programme, son prix et ses pourcentages alimentaires.</p>
             </div>
-            <div class="hero-actions">
-                <a href="/admin/regimes" class="ghost-link">Retour liste</a>
+            <div class="hero-actions d-flex flex-wrap gap-2">
+                <a href="/admin/regimes" class="ghost-link btn btn-light btn-sm">Retour liste</a>
             </div>
         </header>
 

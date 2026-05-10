@@ -5,6 +5,7 @@ namespace App\Repositories;
 interface RegimeRepositoryInterface
 {
     public function getAll();
+    public function getAllWithRevenue();
     public function findById(int $id);
     public function findByVariationLessThan(float $value);
     public function findByVariationLessThanOrEqual(float $value);

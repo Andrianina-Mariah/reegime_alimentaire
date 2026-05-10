@@ -7,10 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activités recommandées</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/auth.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
-    <main class="auth-shell profile-shell">
+    <main class="auth-shell profile-shell container-shell">
         <section class="auth-visual login-visual" aria-label="Presentation">
             <p class="eyebrow">Activités</p>
             <h1>Activités recommandées</h1>
@@ -26,8 +28,8 @@
 
         <section class="auth-card">
             <div class="profile-topbar">
-                <a class="back-link" href="/profil">Retour au profil</a>
-                <a class="logout-button" href="/logout">Deconnexion</a>
+                <a class="back-link btn btn-light btn-sm" href="/profil">Retour au profil</a>
+                <a class="logout-button btn btn-dark btn-sm" href="/logout">Deconnexion</a>
             </div>
 
             <div class="card-heading">

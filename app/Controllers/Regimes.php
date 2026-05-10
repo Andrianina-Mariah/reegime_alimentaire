@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Libraries\GoldOption;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\RegimeAchatModel;
+use App\Models\RegimeWalletModel;
 use App\Repositories\RegimeRepository;
 use App\Repositories\RegimeRepositoryInterface;
 use App\Repositories\RegimeSanteRepository;
@@ -102,6 +104,61 @@ class Regimes extends BaseController
         return $userId;
     }
 
+    private function getPurchasedRegimes(int $userId): array
+    {
+        if ($userId <= 0) {
+            return [];
+        }
+
+        $rows = db_connect()
+            ->table('regime_regime_achats')
+            ->select('regime_id')
+            ->where('user_id', $userId)
+            ->get()
+            ->getResultArray();
+
+        $map = [];
+        foreach ($rows as $row) {
+            $regimeId = (int) ($row['regime_id'] ?? 0);
+            if ($regimeId > 0) {
+                $map[$regimeId] = true;
+            }
+        }
+
+        return $map;
+    }
+
+    private function isRegimePurchased(int $userId, int $regimeId): bool
+    {
+        if ($userId <= 0 || $regimeId <= 0) {
+            return false;
+        }
+
+        return db_connect()
+            ->table('regime_regime_achats')
+            ->where('user_id', $userId)
+            ->where('regime_id', $regimeId)
+            ->countAllResults() > 0;
+    }
+
+    private function getRecettesForRegime(int $regimeId): array
+    {
+        if ($regimeId <= 0) {
+            return [];
+        }
+
+        return db_connect()
+            ->table('regime_regime_recettes rrr')
+            ->select('rrr.jour, r.id, r.nom, r.description, r.type_repas')
+            ->join('regime_recettes r', 'r.id = rrr.recette_id', 'inner')
+            ->where('rrr.regime_id', $regimeId)
+            ->orderBy('rrr.jour', 'asc')
+            ->orderBy('r.type_repas', 'asc')
+            ->orderBy('r.nom', 'asc')
+            ->get()
+            ->getResultArray();
+    }
+
     public function index()
     {
         $userId = $this->requireUserId();
@@ -169,6 +226,8 @@ class Regimes extends BaseController
 
         $goldDetails = GoldOption::details();
 
+        $purchasedRegimes = $this->getPurchasedRegimes($userId);
+
         return view('regimes/index', [
             'user' => $user,
             'sante' => $sante,
@@ -179,6 +238,142 @@ class Regimes extends BaseController
             'regimes' => $regimes,
             'filtreElargi' => $filtreElargi,
             'goldDetails' => $goldDetails,
+            'purchasedRegimes' => $purchasedRegimes,
+        ]);
+    }
+
+    public function acheter(int $regimeId)
+    {
+        $userId = $this->requireUserId();
+
+        if (! is_int($userId)) {
+            return $userId;
+        }
+
+        if ($regimeId <= 0) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Régime invalide.',
+            ]);
+        }
+
+        $user = $this->utilisateurRepo->findById($userId);
+
+        if ($user === null) {
+            return redirect()->to('/login')->with('errors', [
+                'auth' => 'Utilisateur introuvable. Merci de te reconnecter.',
+            ]);
+        }
+
+        $regime = $this->regimeRepo->findById($regimeId);
+
+        if ($regime === null) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Régime introuvable.',
+            ]);
+        }
+
+        if ($this->isRegimePurchased($userId, $regimeId)) {
+            return redirect()->to('/regimes')->with('success', 'Régime déjà acheté.');
+        }
+
+        $goldDetails = GoldOption::details();
+        $discountRate = (float) ($goldDetails['discountRate'] ?? 0.15);
+        $isGold = isset($user['is_gold']) && (int) $user['is_gold'] === 1;
+
+        $prix = (float) ($regime['prix'] ?? 0);
+        $prixFinal = $isGold ? $prix * (1 - $discountRate) : $prix;
+
+        if ($prixFinal <= 0) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Prix du régime invalide.',
+            ]);
+        }
+
+        $wallets = new RegimeWalletModel();
+        $wallet = $wallets->where('user_id', $userId)->first();
+
+        if ($wallet === null) {
+            $wallets->insert([
+                'user_id' => $userId,
+                'solde' => 0,
+            ]);
+            $wallet = $wallets->where('user_id', $userId)->first();
+        }
+
+        $walletId = (int) ($wallet['id'] ?? 0);
+        if ($walletId <= 0) {
+            return redirect()->to('/wallet')->with('errors', [
+                'wallet' => 'Wallet introuvable.',
+            ]);
+        }
+
+        $db = db_connect();
+        $db->transStart();
+
+        $db->table('regime_wallet')
+            ->set('solde', 'solde - ' . (float) $prixFinal, false)
+            ->where('id', $walletId)
+            ->where('solde >=', $prixFinal)
+            ->update();
+
+        if ($db->affectedRows() <= 0) {
+            $db->transComplete();
+            return redirect()->to('/wallet')->with('errors', [
+                'wallet' => 'Solde insuffisant pour acheter ce régime.',
+            ]);
+        }
+
+        $achats = new RegimeAchatModel();
+        $achats->insert([
+            'user_id' => $userId,
+            'regime_id' => $regimeId,
+            'prix_paye' => $prixFinal,
+        ]);
+
+        $db->transComplete();
+
+        if (! $db->transStatus()) {
+            return redirect()->to('/regimes')->with('errors', [
+                'database' => 'Impossible de finaliser l achat pour le moment.',
+            ]);
+        }
+
+        return redirect()->to('/regimes')->with('success', 'Régime acheté avec succès.');
+    }
+
+    public function recettes(int $regimeId)
+    {
+        $userId = $this->requireUserId();
+
+        if (! is_int($userId)) {
+            return $userId;
+        }
+
+        if ($regimeId <= 0) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Régime invalide.',
+            ]);
+        }
+
+        if (! $this->isRegimePurchased($userId, $regimeId)) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Achète le régime pour accéder aux recettes.',
+            ]);
+        }
+
+        $regime = $this->regimeRepo->findById($regimeId);
+
+        if ($regime === null) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Régime introuvable.',
+            ]);
+        }
+
+        $recettes = $this->getRecettesForRegime($regimeId);
+
+        return view('regimes/recettes', [
+            'regime' => $regime,
+            'recettes' => $recettes,
         ]);
     }
 
@@ -193,6 +388,12 @@ class Regimes extends BaseController
         if ($regimeId <= 0) {
             return redirect()->to('/regimes')->with('errors', [
                 'regime' => 'Régime invalide.',
+            ]);
+        }
+
+        if (! $this->isRegimePurchased($userId, $regimeId)) {
+            return redirect()->to('/regimes')->with('errors', [
+                'regime' => 'Achète le régime pour télécharger les recettes.',
             ]);
         }
 
@@ -226,6 +427,8 @@ class Regimes extends BaseController
             ->orderBy('a.nom', 'asc')
             ->get()
             ->getResultArray();
+
+        $recettes = $this->getRecettesForRegime($regimeId);
 
         $sante = $this->santeRepo->findByUserId($userId);
 
@@ -273,6 +476,7 @@ class Regimes extends BaseController
         $html = view('regimes/pdf', [
             'regime' => $regime,
             'activites' => $activites,
+            'recettes' => $recettes,
             'user' => $user,
             'sante' => $sante,
             'imc' => $imc,
