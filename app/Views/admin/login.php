@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell login-shell">
         <section class="auth-visual admin-visual login-visual" aria-label="Presentation admin">
             <p class="eyebrow">Administration</p>
@@ -23,7 +24,7 @@
         </section>
 
         <section class="auth-card">
-            <a class="back-link" href="/login">Connexion utilisateur</a>
+            <a class="back-link" href="/login">Retour a la connexion</a>
             <div class="card-heading">
                 <span class="step-pill">AD</span>
                 <h2>Admin</h2>

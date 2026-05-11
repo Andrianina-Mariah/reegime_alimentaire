@@ -22,6 +22,7 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
 </head>
 
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell profile-shell container-shell">
 
         <section class="auth-visual login-visual" aria-label="Presentation">
@@ -51,7 +52,6 @@ $goldAccess = (string) ($goldDetails['accessMode'] ?? 'Paiement unique');
 
             <div class="profile-topbar">
                 <a class="back-link btn btn-light btn-sm" href="/profil">Retour au profil</a>
-                <a class="logout-button btn btn-dark btn-sm" href="/logout">Déconnexion</a>
                 <a class="primary-button btn btn-success btn-sm" href="/activites" style="margin-left: .5rem;">
                     Gérer les activités
                 </a>

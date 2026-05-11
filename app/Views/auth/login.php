@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell login-shell">
         <section class="auth-visual login-visual" aria-label="Presentation">
             <p class="eyebrow">Bon retour</p>
@@ -23,7 +24,6 @@
         </section>
 
         <section class="auth-card">
-            <a class="back-link" href="/inscription">Creer un compte</a>
             <div class="card-heading">
                 <span class="step-pill">IN</span>
                 <h2>Connexion</h2>

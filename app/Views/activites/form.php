@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell profile-shell">
         <section class="auth-visual login-visual" aria-label="Activités">
             <p class="eyebrow">Activités</p>
@@ -30,7 +31,6 @@
         <section class="auth-card">
             <div class="profile-topbar">
                 <a class="back-link" href="/activites">Retour liste</a>
-                <a class="logout-button" href="/logout">Déconnexion</a>
             </div>
 
             <div class="card-heading">

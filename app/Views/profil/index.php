@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell profile-shell">
         <section class="auth-visual login-visual" aria-label="Presentation">
             <p class="eyebrow">Espace personnel</p>
@@ -25,7 +26,6 @@
         <section class="auth-card">
             <div class="profile-topbar">
                 <a class="back-link" href="/">Retour a l'accueil</a>
-                <a class="logout-button" href="/logout">Deconnexion</a>
             </div>
 
             <div class="card-heading">

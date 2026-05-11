@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell profile-shell container-shell">
         <section class="auth-visual login-visual" aria-label="Presentation">
             <p class="eyebrow">Recettes</p>
@@ -40,7 +41,6 @@
         <section class="auth-card">
             <div class="profile-topbar">
                 <a class="back-link btn btn-light btn-sm" href="/regimes">Retour aux régimes</a>
-                <a class="logout-button btn btn-dark btn-sm" href="/logout">Déconnexion</a>
             </div>
 
             <div class="card-heading">

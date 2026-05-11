@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell">
         <section class="auth-visual auth-visual-alt" aria-label="Presentation">
             <p class="eyebrow">Profil sante</p>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
+    <?= view('partials/top_nav'); ?>
     <main class="auth-shell">
         <section class="auth-visual" aria-label="Presentation">
             <p class="eyebrow">Regime alimentaire</p>
@@ -26,7 +27,7 @@
         </section>
 
         <section class="auth-card">
-            <a class="back-link" href="/login">Deja inscrit ? Se connecter</a>
+            <a class="back-link" href="/login">Retour a la connexion</a>
             <div class="card-heading">
                 <span class="step-pill">01</span>
                 <h2>Inscription</h2>
